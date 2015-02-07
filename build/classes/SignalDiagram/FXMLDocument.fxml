@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="170.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SignalDiagram.FXMLDocumentController">
+    <children>
+      <BorderPane prefHeight="470.0" prefWidth="665.0">
+         <center>
+              <SplitPane dividerPositions="0.5" prefHeight="470.0" prefWidth="520.0" BorderPane.alignment="CENTER">
+                  <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="468.0" prefWidth="96.0">
+                     <children>
+                              <Canvas fx:id="m_canvas" height="398.0" width="298.0" />
+                     </children>
+                      </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="343.0">
+                          <children>
+                        <Label fx:id="m_label" layoutX="32.0" layoutY="93.0" text="Label" />
+                        <CheckBox fx:id="ChkBox_Show" layoutX="21.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleChkBoxAction" selected="true" text="Show/Hide" />
+                          </children>
+                      </AnchorPane>
+                  </items>
+              </SplitPane>
+         </center>
+      </BorderPane>
+    </children>
+</AnchorPane>
