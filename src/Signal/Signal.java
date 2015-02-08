@@ -6,6 +6,9 @@
 package Signal;
 
 import static Encoder.SignalEncoding.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 
 /**
  *
@@ -15,14 +18,23 @@ public class Signal extends SignalAbstract {
 
     private modulationType m_signalType;
 
+    public ObservableList<Point2D> signalList;
+
     public Signal() {
     }
 
     public Signal(String message, modulationType type) {
-        m_message = message;
         m_signalType = type;
+        setMessage(message);
+    }
 
-        switch (type) {
+    public ObservableList getLists() {
+        return signalList;
+    }
+
+    private Signal encodeSignal() {
+        System.out.println("m_signalType: " + m_signalType);
+        switch (m_signalType) {
             case BIPOLAR:
                 m_encodedSignal = bipolar(m_message);
                 break;
@@ -39,26 +51,26 @@ public class Signal extends SignalAbstract {
                 m_encodedSignal = miller(m_message);
                 break;
         }
+        return this;
     }
 
     public Signal setType(modulationType type) {
-        switch (type) {
-            case BIPOLAR:
-                m_encodedSignal = bipolar(m_message);
-            case NRZ:
-                m_encodedSignal = nrz(m_message);
-            case RZ:
-                m_encodedSignal = rz(m_message);
-            case MANCHESTER:
-                m_encodedSignal = manchester(m_message);
-            case MILLER:
-                m_encodedSignal = miller(m_message);
-        }
+        m_signalType = type;
+        encodeSignal();
         return this;
     }
 
     @Override
     protected SignalAbstract updateSignal() {
+        return this;
+    }
+
+    @Override
+    public Signal setMessage(String message) {
+        m_message = message;
+        encodeSignal();
+        signalList = FXCollections.observableList(m_encodedSignal);
+
         return this;
     }
 

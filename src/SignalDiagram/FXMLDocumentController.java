@@ -10,6 +10,8 @@ import Signal.Signal;
 import Signal.Signal.modulationType;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +20,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -36,6 +40,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private ComboBox cmbBox_Type;
+
+    @FXML
+    private SplitPane splitPane_Main;
+
+    @FXML
+    private TextField txtField_binaryInput;
 
     private Renderer m_renderer;
     private Signal m_signal;
@@ -66,12 +76,20 @@ public class FXMLDocumentController implements Initializable {
         m_renderer = new Renderer(m_canvas, m_signal);
         m_label.setText(m_signal.getMessage());
 
-        //cmbBox_Type.setItems(null);
+        cmbBox_Type.setItems(null);
+        initListeners();
+
     }
 
-    @FXML
-    private void setSignal() {
+    private void initListeners() {
+        m_signal.getLists().addListener((ListChangeListener.Change c) -> {
+            System.out.println("Changed");
+        });
 
+        txtField_binaryInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            m_signal.setMessage(newValue);
+            m_renderer.draw();
+        });
     }
 
 }

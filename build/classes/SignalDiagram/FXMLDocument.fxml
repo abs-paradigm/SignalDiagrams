@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
@@ -8,44 +9,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="170.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SignalDiagram.FXMLDocumentController">
-    <children>
-      <BorderPane prefHeight="470.0" prefWidth="665.0">
-         <center>
-              <SplitPane dividerPositions="0.5" prefHeight="470.0" prefWidth="520.0" BorderPane.alignment="CENTER">
-                  <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="468.0" prefWidth="96.0">
-                     <children>
-                              <Canvas fx:id="m_canvas" height="398.0" width="298.0" />
-                     </children>
-                      </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="343.0">
-                          <children>
-                        <Label fx:id="m_label" layoutX="21.0" layoutY="109.0" text="Label" />
-                        <CheckBox fx:id="ChkBox_Show" layoutX="21.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleChkBoxAction" selected="true" text="Show/Hide" />
-                        <ComboBox fx:id="cmbBox_Type" layoutX="21.0" layoutY="70.0" prefWidth="150.0" promptText="Type" />
-                          </children>
-                      </AnchorPane>
-                  </items>
-              </SplitPane>
-         </center>
-         <top>
-            <MenuBar BorderPane.alignment="CENTER">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                        <MenuItem fx:id="menuItm_export" mnemonicParsing="false" text="Export..." />
-                    <MenuItem fx:id="menuItm_close" mnemonicParsing="false" onAction="#close" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-         </top>
-      </BorderPane>
-    </children>
-</AnchorPane>
+<BorderPane prefHeight="470.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SignalDiagram.FXMLDocumentController">
+   <center>
+        <SplitPane fx:id="splitPane_Main" dividerPositions="0.49321266968325794" prefHeight="470.0" prefWidth="520.0" BorderPane.alignment="CENTER">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="468.0" prefWidth="96.0">
+               <children>
+                        <Canvas fx:id="m_canvas" height="435.0" width="332.0" />
+               </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="343.0">
+                    <children>
+                  <Label fx:id="m_label" layoutX="21.0" layoutY="109.0" text="Label" />
+                  <CheckBox fx:id="ChkBox_Show" layoutX="21.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleChkBoxAction" selected="true" text="Show/Hide" />
+                  <ComboBox fx:id="cmbBox_Type" layoutX="21.0" layoutY="70.0" prefWidth="150.0" promptText="Type" />
+                  <TextField fx:id="txtField_binaryInput" layoutX="21.0" layoutY="138.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="menuItm_export" mnemonicParsing="false" text="Export..." />
+              <MenuItem fx:id="menuItm_close" mnemonicParsing="false" onAction="#close" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

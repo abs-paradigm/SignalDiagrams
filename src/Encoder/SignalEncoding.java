@@ -73,7 +73,6 @@ public class SignalEncoding {
                 encodedSignal.add(new Point2D(i + .5, -y));
                 encodedSignal.add(new Point2D(i + 1, -y));
             }
-
         }
 
         return encodedSignal;

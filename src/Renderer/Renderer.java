@@ -7,7 +7,6 @@ package Renderer;
 
 import Signal.Signal;
 import java.util.List;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -37,16 +36,14 @@ public class Renderer {
 
     public void resetCanvas() {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        System.out.println("Clear canvas");
     }
 
     public final void draw() {
-        System.out.println("Draw");
+        resetCanvas();
         drawSignals();
     }
 
     public void drawSignals() {
-        System.out.println("drawSignals");
         double invertedYFactor = -1;
         double zoomFactorX = 20;
         double zoomFactorY = 50;
