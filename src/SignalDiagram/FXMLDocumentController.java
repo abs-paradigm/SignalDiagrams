@@ -7,6 +7,7 @@ package SignalDiagram;
 
 import Renderer.Renderer;
 import Signal.Signal;
+import Signal.Signal.modulationType;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 /**
@@ -32,6 +34,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckBox ChkBox_Show;
 
+    @FXML
+    private ComboBox cmbBox_Type;
+
     private Renderer m_renderer;
     private Signal m_signal;
     private GraphicsContext gc;
@@ -45,21 +50,28 @@ public class FXMLDocumentController implements Initializable {
             m_renderer.draw();
         } else {
             m_label.setText("");
-            m_renderer.reset();
+            m_renderer.resetCanvas();
         }
     }
 
     @FXML
-    private void reset() {
-        m_renderer.reset();
+    private void close() {
+        System.exit(0);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        m_signal = new Signal("10100011110101010", 0);
+        m_signal = new Signal("10100011110101010", modulationType.NRZ);
         m_renderer = new Renderer(m_canvas, m_signal);
         m_label.setText(m_signal.getMessage());
+
+        //cmbBox_Type.setItems(null);
+    }
+
+    @FXML
+    private void setSignal() {
+
     }
 
 }

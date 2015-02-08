@@ -13,22 +13,57 @@ import static Encoder.SignalEncoding.*;
  */
 public class Signal extends SignalAbstract {
 
-    //private Enum<Integer> encodingType;
+    private modulationType m_signalType;
+
     public Signal() {
     }
 
-    public Signal(String message, int type) {
+    public Signal(String message, modulationType type) {
         m_message = message;
-        //m_type = type;
-        m_encodedSignal = nrz(message);
-        //m_encodedSignal = bipolar(message);
-        //m_encodedSignal = rz(message);
-        //m_encodedSignal = allOrNothing(message);
-        //m_encodedSignal = manchester(message);
+        m_signalType = type;
+
+        switch (type) {
+            case BIPOLAR:
+                m_encodedSignal = bipolar(m_message);
+                break;
+            case NRZ:
+                m_encodedSignal = nrz(m_message);
+                break;
+            case RZ:
+                m_encodedSignal = rz(m_message);
+                break;
+            case MANCHESTER:
+                m_encodedSignal = manchester(m_message);
+                break;
+            case MILLER:
+                m_encodedSignal = miller(m_message);
+                break;
+        }
+    }
+
+    public Signal setType(modulationType type) {
+        switch (type) {
+            case BIPOLAR:
+                m_encodedSignal = bipolar(m_message);
+            case NRZ:
+                m_encodedSignal = nrz(m_message);
+            case RZ:
+                m_encodedSignal = rz(m_message);
+            case MANCHESTER:
+                m_encodedSignal = manchester(m_message);
+            case MILLER:
+                m_encodedSignal = miller(m_message);
+        }
+        return this;
     }
 
     @Override
     protected SignalAbstract updateSignal() {
         return this;
+    }
+
+    public enum modulationType {
+
+        NRZ, RZ, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER
     }
 }

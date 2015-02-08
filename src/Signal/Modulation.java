@@ -2,16 +2,12 @@ package Signal;
 
 public class Modulation extends SignalAbstract {
 
-    // 0 = frequence
-    // 1 = amplitude
-    // 2 = phase
-    //public enum modulationType {FREQUENCE, AMPLITUDE, PHASE};
+    private signalType[] m_signalType;
 
-    private Boolean[] modulationTypes = new Boolean[3];
-
-    public Modulation(String message, Boolean[] modulationTypes) {
+    public Modulation(String message, signalType[] signalTypes) {
         m_message = message;
-        this.modulationTypes = modulationTypes;
+        this.m_signalType = signalTypes;
+        //setSignal(type);
     }
 
     public Modulation() {
@@ -19,9 +15,28 @@ public class Modulation extends SignalAbstract {
 
     @Override
     protected SignalAbstract updateSignal() {
-        //encode(m_message);
         return this;
     }
 
+    public final Modulation setSignal(signalType[] types) {
+
+//        switch (types) {
+//            case AMPLITUDE:
+//                //m_encodedSignal = amplitude(m_message);
+//                break;
+//            case FREQUENCE:
+//                //m_encodedSignal = frequence(m_message);
+//                break;
+//            case PHASE:
+//                //m_encodedSignal = phase(m_message);
+//                break;
+//        }
+        return this;
+    }
+
+    public enum signalType {
+
+        FREQUENCE, AMPLITUDE, PHASE
+    }
 
 }

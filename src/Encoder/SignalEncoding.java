@@ -6,19 +6,17 @@ import javafx.geometry.Point2D;
 
 public class SignalEncoding {
 
-    private int nbBits = 1;
-
     public static List<Point2D> nrz(String message) {
 
         List<Point2D> encodedSignal = new ArrayList();
         double y = .5;
 
         for (int i = 0; i < message.length(); i++) {
-            char previousBit = i - 1 > 0 ? message.charAt(i - 1) : '0';
+            char previousBit = (i - 1) > 0 ? message.charAt(i - 1) : '0';
             char currentBit = message.charAt(i);
 
             if (previousBit == '0' && currentBit == '1') {
-                encodedSignal.add(new Point2D(i, 0));
+                encodedSignal.add(new Point2D(i, -y));
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i + 1, y));
 
@@ -199,6 +197,7 @@ public class SignalEncoding {
 
         return encodedSignal;
     }
+    private int nbBits = 1;
 
     private Boolean isZeroAndOne(String message) {
         for (int i = 0; i < message.length(); i++) {
