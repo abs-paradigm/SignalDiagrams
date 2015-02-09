@@ -43,16 +43,16 @@ public class SignalJUnitTest {
     @Test
     public void CheckPointQuantity() {
         // TODO
-        List<Point2D> test = Encoder.SignalEncoding.bipolar("101010101010");
+        List<Point2D> test = Encoder.SignalEncoders.bipolar("101010101010");
         System.out.println("Bipolar");
         System.out.println(test.size());
-        test = Encoder.SignalEncoding.nrz("101010101010");
+        test = Encoder.SignalEncoders.nrz("101010101010");
         System.out.println("nrz");
         System.out.println(test.size());
-        test = Encoder.SignalEncoding.rz("101010101010");
+        test = Encoder.SignalEncoders.rz("101010101010");
         System.out.println("rz");
         System.out.println(test.size());
-        test = Encoder.SignalEncoding.manchester("101010101010");
+        test = Encoder.SignalEncoders.manchester("101010101010");
         System.out.println("manchester");
         System.out.println(test.size());
     }

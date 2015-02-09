@@ -6,7 +6,6 @@
 package Renderer;
 
 import Signal.Signal;
-import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -55,7 +54,7 @@ public class Renderer {
         double[] yPoints = new double[m_signal.getPoints().size()];
 
         for (int i = 0; i < m_signal.getPoints().size(); i++) {
-            System.out.println("X: " + m_signal.getPoints().get(i).getX() * zoomFactorX + " Y: " + m_signal.getPoints().get(i).getY() * zoomFactorY);
+            // System.out.println("X: " + m_signal.getPoints().get(i).getX() * zoomFactorX + " Y: " + m_signal.getPoints().get(i).getY() * zoomFactorY);
             xPoints[i] = (m_signal.getPoints().get(i).getX() * zoomFactorX) + xOffset;
             yPoints[i] = (m_signal.getPoints().get(i).getY() * invertedYFactor * zoomFactorY) + yOffset;
         }

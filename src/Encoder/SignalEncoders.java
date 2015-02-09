@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
 
-public class SignalEncoding {
+public class SignalEncoders {
 
     public static List<Point2D> nrz(String message) {
 
@@ -12,8 +12,14 @@ public class SignalEncoding {
         double y = .5;
 
         for (int i = 0; i < message.length(); i++) {
-            char previousBit = (i - 1) > 0 ? message.charAt(i - 1) : '0';
             char currentBit = message.charAt(i);
+            char previousBit;
+
+            if ((i - 1) > 0) {
+                previousBit = message.charAt(i - 1);
+            } else {
+                previousBit = currentBit == '0' ? '0' : '1';
+            }
 
             if (previousBit == '0' && currentBit == '1') {
                 encodedSignal.add(new Point2D(i, -y));
@@ -125,7 +131,7 @@ public class SignalEncoding {
         return encodedSignal;
     }
 
-    public static List<Point2D> allOrNothing(String message) {
+    public static List<Point2D> unipolar(String message) {
 
         List<Point2D> encodedSignal = new ArrayList();
         double y = 1;

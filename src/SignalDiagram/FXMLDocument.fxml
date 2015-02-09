@@ -13,14 +13,13 @@
    <center>
         <SplitPane fx:id="splitPane_Main" dividerPositions="0.49321266968325794" prefHeight="470.0" prefWidth="520.0" BorderPane.alignment="CENTER">
             <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="468.0" prefWidth="96.0">
+            <Pane fx:id="m_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                        <Canvas fx:id="m_canvas" height="435.0" width="332.0" />
+                        <Canvas fx:id="m_canvas" height="438.0" width="665.0" />
                </children>
-                </AnchorPane>
+            </Pane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="343.0">
                     <children>
-                  <Label fx:id="m_label" layoutX="21.0" layoutY="109.0" text="Label" />
                   <CheckBox fx:id="ChkBox_Show" layoutX="21.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleChkBoxAction" selected="true" text="Show/Hide" />
                   <ComboBox fx:id="cmbBox_Type" layoutX="21.0" layoutY="70.0" prefWidth="150.0" promptText="Type" />
                   <TextField fx:id="txtField_binaryInput" layoutX="21.0" layoutY="138.0" />
