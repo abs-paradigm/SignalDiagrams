@@ -55,7 +55,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleChkBoxAction(ActionEvent event) {
-        System.out.println("You clicked me!");
 
         if (ChkBox_Show.isSelected()) {
             txtField_binaryInput.setEditable(true);
@@ -86,7 +85,6 @@ public class FXMLDocumentController implements Initializable {
 
         cmbBox_Type.setItems(FXCollections.observableList(m_signal.getModulationTypes()));
         initListeners();
-
     }
 
     private void initListeners() {

@@ -15,7 +15,7 @@ public class SignalEncoders {
             char currentBit = message.charAt(i);
             char previousBit;
 
-            if ((i - 1) > 0) {
+            if ((i - 1) >= 0) {
                 previousBit = message.charAt(i - 1);
             } else {
                 previousBit = currentBit == '0' ? '0' : '1';
@@ -51,7 +51,13 @@ public class SignalEncoders {
 
         for (int i = 0; i < message.length(); i++) {
             char currentBit = message.charAt(i);
-            char previousBit = i - 1 > 0 ? message.charAt(i - 1) : '0';
+            char previousBit;
+
+            if ((i - 1) >= 0) {
+                previousBit = message.charAt(i - 1);
+            } else {
+                previousBit = currentBit == '0' ? '0' : '1';
+            }
 
             if (currentBit == '0' && previousBit == '0') {
                 encodedSignal.add(new Point2D(i, y));
@@ -65,8 +71,8 @@ public class SignalEncoders {
                 encodedSignal.add(new Point2D(i + .5, -y));
                 encodedSignal.add(new Point2D(i + .5, y));
                 encodedSignal.add(new Point2D(i + 1, y));
-            }
-            if (currentBit == '1' && previousBit == '1') {
+
+            } else if (currentBit == '1' && previousBit == '1') {
                 encodedSignal.add(new Point2D(i, -y));
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i + .5, y));
@@ -165,38 +171,51 @@ public class SignalEncoders {
 
     public static List<Point2D> miller(String message) {
         List<Point2D> encodedSignal = new ArrayList();
-        Boolean positif = false;
         double y = .5;
 
         for (int i = 0; i < message.length(); i++) {
-            char nextBit = i + 1 <= message.length() ? message.charAt(i + 1) : '0';
+
             char currentBit = message.charAt(i);
+            char previousBit = '-';
+            char nextBit;
+            Boolean isNotFirstPoint = i > 0;
+            Point2D lastPoint = new Point2D(i, -y);
 
-            //positif = positif != true; 
-            if (currentBit == '0' && !positif) {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
-
+            if ((i - 1) >= 0) {
+                previousBit = message.charAt(i - 1);
             }
-            if (currentBit == '1' && !positif) {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + 1, y));
 
-                positif = positif != true;
+            if (isNotFirstPoint) {
+                lastPoint = encodedSignal.get(encodedSignal.size() - 1);
             }
-            if (currentBit == '1' && positif) {
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
 
-                positif = positif != true;
+            if ((i + 1) >= message.length()) {
+
+                nextBit = currentBit == '0' ? '0' : '1';
+            } else {
+                nextBit = message.charAt(i + 1);
             }
-            if (currentBit == '0' && positif) {
-                //m_encodedSignal.add(new Point2D(0, 0));
-                //m_encodedSignal.add(new Point2D(1, 0));
+
+            if (currentBit == '0' && !isNotFirstPoint) {
+                encodedSignal.add(new Point2D(i, lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + 1, lastPoint.getY()));
+            }
+
+            if (currentBit == '0' && previousBit == '0') {
+                encodedSignal.add(new Point2D(i, lastPoint.getY()));
+                encodedSignal.add(new Point2D(i, -lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + 1, -lastPoint.getY()));
+            }
+            if (currentBit == '0' && previousBit == '1') {
+                encodedSignal.add(new Point2D(i, lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + 1, lastPoint.getY()));
+            }
+            if (currentBit == '1') {
+                encodedSignal.add(new Point2D(i, lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + .5, lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + .5, -lastPoint.getY()));
+                encodedSignal.add(new Point2D(i + 1, -lastPoint.getY()));
+
             }
         }
 

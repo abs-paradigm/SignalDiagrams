@@ -29,7 +29,7 @@ public class Signal extends SignalAbstract {
 
     public Signal(String message, modulationType type) {
         m_signalType = type;
-        setMessage(message);
+        initMessage(message);
     }
 
     private Signal encodeMessage() {
@@ -66,18 +66,12 @@ public class Signal extends SignalAbstract {
 
     public Signal setType(String type) {
 
-        if (modulationType.BIPOLAR.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.BIPOLAR;
-        } else if (modulationType.MANCHESTER.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.MANCHESTER;
-        } else if (modulationType.MILLER.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.MILLER;
-        } else if (modulationType.NRZ.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.NRZ;
-        } else if (modulationType.RZ.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.RZ;
-        } else if (modulationType.UNIPOLAR.name().equals(type.toUpperCase())) {
-            m_signalType = modulationType.UNIPOLAR;
+        for (modulationType mt : modulationType.values()) {
+
+            if (mt.name().equals(type.toUpperCase())) {
+                m_signalType = mt;
+                break;
+            }
         }
 
         encodeMessage();
@@ -95,6 +89,11 @@ public class Signal extends SignalAbstract {
         encodeMessage();
 
         return this;
+    }
+
+    private void initMessage(String message) {
+        m_message = message;
+        encodeMessage();
     }
 
     public List<String> getModulationTypes() {
