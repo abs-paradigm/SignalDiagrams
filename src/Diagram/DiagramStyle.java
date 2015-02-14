@@ -18,11 +18,15 @@ public class DiagramStyle {
     private Font m_titleFont;
     private int m_titleFontSize;
     private Color m_borderColor;
+    private Color m_axisColor;
+    private double m_axisLineWidth;
     private Color m_titleFontColor;
 
     public DiagramStyle() {
         m_borderLineWidth = 1;
         m_borderColor = Color.BLACK;
+        m_axisLineWidth = .5;
+        m_axisColor = Color.GREY;
         m_titleFontSize = 12;
         m_titleFontColor = Color.BLACK;
     }
@@ -65,6 +69,14 @@ public class DiagramStyle {
 
     public Color getTitleColor() {
         return m_titleFontColor;
+    }
+
+    public Color getAxisColor() {
+        return m_axisColor;
+    }
+
+    public double getAxisLineWidth() {
+        return m_axisLineWidth;
     }
 
 }

@@ -15,9 +15,7 @@ import javafx.geometry.Orientation;
 public class Diagram {
 
     private String m_title;
-
     private Dimension2D m_dimension;
-
     private Dimension2D m_insets;
     private DiagramAxis m_horizontalAxis;
     private DiagramAxis m_verticalAxis;
@@ -44,7 +42,6 @@ public class Diagram {
         double[] axisLimit = new double[3];
         m_horizontalAxis = new DiagramAxis("", Orientation.HORIZONTAL, new double[]{-.1 * m_dimension.getWidth(), 0, .9 * m_dimension.getWidth()});
         m_verticalAxis = new DiagramAxis("", Orientation.VERTICAL, new double[]{-.5 * m_dimension.getHeight(), 0, .5 * m_dimension.getHeight()});
-
         m_insets = new Dimension2D(10, 10); 
 
     }

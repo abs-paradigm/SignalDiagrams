@@ -7,6 +7,7 @@ package Renderer;
 
 import Diagram.Diagram;
 import Signal.Signal;
+import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -48,13 +49,13 @@ public class Renderer {
     public final void draw() {
         resetCanvas();
         drawCharts();
-        drawSignals();
+        drawDigitalSignals();
     }
 
-    public void drawSignals() {
+    private void drawDigitalSignals() {
         double invertedYFactor = -1;
-        double zoomFactorX = 0;
-        double zoomFactorY = 0;
+        double zoomFactorX = 10;
+        double zoomFactorY = 25;
         double xOffset = m_diagramAdapter.getOrigin().getX();
         double yOffset = m_diagramAdapter.getOrigin().getY();
         gc.setLineWidth(1);
@@ -68,31 +69,76 @@ public class Renderer {
 
         for (int i = 0; i < m_signal.getPoints().size(); i++) {
 
-            double testval = (m_signal.getPoints().get(i).getX() * 10) + xOffset;
+            double testval = (m_signal.getPoints().get(i).getX() * zoomFactorX) + xOffset;
 
-            xPoints[i] = (m_signal.getPoints().get(i).getX() * 10) + xOffset;
-            yPoints[i] = (m_signal.getPoints().get(i).getY() * invertedYFactor * 25) + yOffset;
+            xPoints[i] = (m_signal.getPoints().get(i).getX() * zoomFactorX) + xOffset;
+            yPoints[i] = (m_signal.getPoints().get(i).getY() * invertedYFactor * zoomFactorY) + yOffset;
         }
 
         gc.strokePolyline(xPoints, yPoints, m_signal.getPoints().size());
     }
 
-    public void drawCharts() {
+    private void drawAnalogSignals() {
 
+    }
+
+    private void drawCharts() {
+        drawChartBorder();
+        drawChartTitle();
+        drawChartAxis();
+        drawIndent();
+        // Draw Axis Title
+        // Draw Title
+    }
+
+    private void drawChartAxis() {
+        gc.setLineWidth(m_diagramAdapter.getDiagram().getDiagramStyle().getAxisLineWidth());
+        gc.setStroke(m_diagramAdapter.getDiagram().getDiagramStyle().getAxisColor());
+        // Draw X Axis
+        gc.strokePolyline(m_diagramAdapter.getX_HorzontalAxis(), m_diagramAdapter.getY_HorzontalAxis(), m_diagramAdapter.getX_HorzontalAxis().length);
+
+        // Draw Y Axis
+        gc.strokePolyline(m_diagramAdapter.getX_VerticalAxis(), m_diagramAdapter.getY_VerticalAxis(), m_diagramAdapter.getY_VerticalAxis().length);
+
+    }
+
+    private void drawChartBorder() {
         // Draw Borders
         gc.setLineWidth(m_diagramAdapter.getDiagram().getDiagramStyle().getBorderLineWidth());
         gc.setStroke(m_diagramAdapter.getDiagram().getDiagramStyle().getBorderColor());
         gc.strokePolyline(m_diagramAdapter.getXborders(), m_diagramAdapter.getYborders(), m_diagramAdapter.getXborders().length);
 
-        gc.setLineWidth(.5);
+    }
 
-        // Draw X Axis
-        gc.strokePolyline(m_diagramAdapter.getX_HorzontalAxis(), m_diagramAdapter.getY_HorzontalAxis(), m_diagramAdapter.getX_HorzontalAxis().length);
+    private void drawChartTitle() {
+        //gc.setStroke(m_diagramAdapter.getDiagram().getDiagramStyle().getTitleColor());
+        //gc.strokeText(m_diagramAdapter.getDiagram().getTitle(), x, y);
+    }
 
-        // Draw X Axis
-        gc.strokePolyline(m_diagramAdapter.getX_VerticalAxis(), m_diagramAdapter.getY_VerticalAxis(), m_diagramAdapter.getY_VerticalAxis().length);
+    private void drawAxisTitle() {
+        //gc.strokeText(m_diagramAdapter.getDiagram().getAxis(Orientation.HORIZONTAL).getTitle(), x, y);
+    }
 
-        // Draw Axis Title
-        // Draw Title
+    private void drawIndent() {
+        gc.setLineWidth(.2);
+        gc.setStroke(Color.GREY);
+
+        double zoomFactorX = 10;
+        double zoomFactorY = 25;
+        double xOffset = m_diagramAdapter.getOrigin().getX();
+        double yOffset = m_diagramAdapter.getOrigin().getY();
+        double xPoints;
+        double yPoints;
+
+        for (int i = 0; i < m_signal.getLength(); i++) {
+
+            double testval = (m_signal.getPoints().get(i).getX() * zoomFactorX) + xOffset;
+
+            xPoints = (i * zoomFactorX) + xOffset;
+            //yPoints = (1/4) * yOffset;
+            gc.strokeLine(xPoints, yOffset - 40, xPoints, yOffset + 40);
+
+        }
+
     }
 }

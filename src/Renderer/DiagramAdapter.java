@@ -6,13 +6,10 @@
 package Renderer;
 
 import Diagram.Diagram;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 /**
@@ -23,8 +20,6 @@ public class DiagramAdapter {
 
     private Dimension2D m_offset;
     private Diagram m_diagram;
-    private List<Shape> m_diagramShapes;
-
     private Polyline m_border;
     private Point2D m_origin;
     private double[] m_Xborder;
@@ -40,24 +35,12 @@ public class DiagramAdapter {
     public DiagramAdapter(Diagram diagram) {
         m_offset = new Dimension2D(20, 20);
         m_diagram = diagram;
-        m_diagramShapes = new ArrayList<>();
         createBorders();
         create_Axis();
     }
 
     public Diagram getDiagram() {
         return m_diagram;
-    }
-
-    private void updateShapes() {
-        m_diagramShapes.add(m_border);
-        m_diagramShapes.add(m_HorizontalText);
-        m_diagramShapes.add(m_VerticalText);
-        m_diagramShapes.add(m_TitleText);
-    }
-
-    public List<Shape> getShapes() {
-        return m_diagramShapes;
     }
 
     public double[] getXborders() {

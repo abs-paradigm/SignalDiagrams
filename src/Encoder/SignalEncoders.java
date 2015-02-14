@@ -29,7 +29,8 @@ public class SignalEncoders {
             } else if (previousBit == '1' && currentBit == '1') {
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i + 1, y));
-            } else if (previousBit == '1' && currentBit == '0') {
+            }
+            if (previousBit == '1' && currentBit == '0') {
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i, -y));
                 encodedSignal.add(new Point2D(i + 1, -y));
@@ -142,7 +143,7 @@ public class SignalEncoders {
         double y = 1;
 
         for (int i = 0; i < message.length(); i++) {
-            char previousBit = i - 1 > 0 ? message.charAt(i - 1) : '0';
+            char previousBit = i - 1 >= 0 ? message.charAt(i - 1) : '0';
             char currentBit = message.charAt(i);
 
             if (previousBit == '0' && currentBit == '1') {

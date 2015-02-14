@@ -44,7 +44,7 @@ public class DiagramAxis {
         return m_orientation;
     }
     
-    public String getText() {
+    public String getTitle() {
         return m_text;
     }
     
