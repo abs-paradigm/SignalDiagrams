@@ -29,8 +29,7 @@ public class SignalEncoders {
             } else if (previousBit == '1' && currentBit == '1') {
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i + 1, y));
-            }
-            if (previousBit == '1' && currentBit == '0') {
+            } else if (previousBit == '1' && currentBit == '0') {
                 encodedSignal.add(new Point2D(i, y));
                 encodedSignal.add(new Point2D(i, -y));
                 encodedSignal.add(new Point2D(i + 1, -y));

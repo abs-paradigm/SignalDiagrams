@@ -1,2 +1,5 @@
 # SignalDiagrams
-A JavaFx 2 application that will let you visualize binary input encoded in: NRZ, RZ, Bipolar, Unipolar, Manchester, Miller, and modulated waveforms: Phase, Frequency, Amplitude, and let you export the chart in SVG (Everything is in progress).
+A JavaFx 8 application that will let you visualize digital and analog signals from a binary input and let you export the chart in SVG (Everything is in progress).
+
+Digital: NRZ, RZ, Bipolar, Unipolar, Manchester, Miller.
+Analog: Phase, Frequency, Amplitude.

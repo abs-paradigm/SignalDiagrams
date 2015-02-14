@@ -5,6 +5,7 @@
  */
 package SignalDiagram;
 
+import Diagram.Diagram;
 import Renderer.Renderer;
 import Signal.Signal;
 import Signal.Signal.modulationType;
@@ -50,6 +51,7 @@ public class FXMLDocumentController implements Initializable {
     private Signal m_signal;
     private GraphicsContext gc;
     private String TestMessage = "10100011110101010";
+    private Diagram m_diagram;
 
     private ObservableList<Point2D> observableList = FXCollections.observableArrayList();
 
@@ -80,7 +82,8 @@ public class FXMLDocumentController implements Initializable {
 //                m_pane.heightProperty());
 
         m_signal = new Signal(TestMessage, modulationType.NRZ);
-        m_renderer = new Renderer(m_canvas, m_signal);
+        m_diagram = new Diagram("NRZ Diagram", 500, 300);
+        m_renderer = new Renderer(m_canvas, m_signal, m_diagram);
         txtField_binaryInput.setText(m_signal.getMessage());
 
         cmbBox_Type.setItems(FXCollections.observableList(m_signal.getModulationTypes()));
