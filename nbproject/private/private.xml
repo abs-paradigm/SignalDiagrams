@@ -4,15 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/FXMLDocumentController.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Encoder/DigitalEncoders.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Diagram/DiagramAxis.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/test/com/SignalDiagram/EncoderTest/AnalogJUnitTest.java</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Renderer/Renderer.java</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/test/com/SignalDiagram/EncoderTest/BezierJUnitTest.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Encoder/AnalogEncoders.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Renderer/DiagramAdapter.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Signal/DigitalSignal.java</file>
+            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Encoder/QuadCurve.java</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Signal/AnalogSignal.java</file>
+            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/test/com/SignalDiagram/EncoderTest/QuadJUnitTest.java</file>
         </group>
     </open-files>
 </project-private>

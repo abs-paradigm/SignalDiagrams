@@ -31,24 +31,29 @@ public class DiagramStyle {
         m_titleFontColor = Color.BLACK;
     }
 
-    public void setBorderWidth(double borderWidth) {
+    public DiagramStyle setBorderWidth(double borderWidth) {
         m_borderLineWidth = borderWidth;
+        return this;
     }
 
-    public void setBorderColor(Color borderColor) {
+    public DiagramStyle setBorderColor(Color borderColor) {
         m_borderColor = borderColor;
+        return this;
     }
 
-    public void setTitleFont(Font font) {
+    public DiagramStyle setTitleFont(Font font) {
         m_titleFont = font;
+        return this;
     }
 
-    public void setFontSize(int fontSize) {
+    public DiagramStyle setFontSize(int fontSize) {
         m_titleFontSize = fontSize;
+        return this;
     }
 
-    public void setTitleFontColor(Color titleFontColor) {
+    public DiagramStyle setTitleFontColor(Color titleFontColor) {
         m_titleFontColor = titleFontColor;
+        return this;
     }
 
     public double getBorderLineWidth() {

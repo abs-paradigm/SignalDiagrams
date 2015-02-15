@@ -37,21 +37,9 @@ public class Renderer {
         m_diagramAdapter = new DiagramAdapter(m_diagram);
         m_origine = m_diagramAdapter.getOrigin();
         gc = m_canvas.getGraphicsContext2D();
-        m_analogSignal = new AnalogSignal("10111", AnalogSignal.analogType.NORMAL);
+        m_analogSignal = new AnalogSignal("01111", AnalogSignal.analogType.AMPLITUDE);
         draw();
-//        m_canvas.widthProperty().bind(
-//                m_scrollPane.widthProperty());
-//        m_canvas.heightProperty().bind(
-//                m_scrollPane.heightProperty());
-//        
-//        m_canvas.widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-//            System.out.println("Changed width: " + m_canvas.widthProperty());
-//            m_diagram.setSize(newValue.doubleValue(), 500);
-//        });
-//        m_canvas.heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-//            System.out.println("Changed height: " + m_canvas.heightProperty());
-//            m_diagram.setSize(500, newValue.doubleValue());
-//        });
+
     }
 
     public void setVisible(Boolean isVisible) {
@@ -59,7 +47,7 @@ public class Renderer {
         System.out.println("isVisible: " + isVisible);
     }
 
-    public void resetCanvas() {
+    private void resetCanvas() {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
     }
 
@@ -93,42 +81,36 @@ public class Renderer {
 
     private void drawAnalogSignals() {
         // for (int i = 0; i < 2; i++) {
-//        double yFactor = 40;
-//        double xFactor = 40;
-//        int i = 0;
-//        double x = (m_analogSignal.getPoints().get(i).getX() * xFactor) + 100;//
-//        double y = (m_analogSignal.getPoints().get(i).getY() * yFactor) + 200;
-//        double x1 = (m_analogSignal.getPoints().get(i + 1).getX() * xFactor) + 100;//
-//        double y1 = (m_analogSignal.getPoints().get(i + 1).getY() * yFactor) + 200;
-//        double x2 = (m_analogSignal.getPoints().get(i + 2).getX() * xFactor) + 100;//
-//        double y2 = (m_analogSignal.getPoints().get(i + 2).getY() * yFactor) + 200;
-//        System.out.println("x: " + m_analogSignal.getPoints().get(i).getX() + " y: " + m_analogSignal.getPoints().get(i).getY());
-//        System.out.println("x1: " + m_analogSignal.getPoints().get(i + 1).getX() + " y1: " + m_analogSignal.getPoints().get(i + 1).getY());
-//        System.out.println("x2: " + m_analogSignal.getPoints().get(i + 2).getX() + " y2: " + m_analogSignal.getPoints().get(i + 2).getY());
-//
-//        gc.beginPath();
-//        gc.moveTo(x, y);
-//        gc.quadraticCurveTo(x1, y1, x2, y2);
-//
+        double yFactor = 40;
+        double xFactor = 40;
+        int i = 0;
+        double x = (m_analogSignal.getPoints().get(i).getX() * xFactor) + 100;//
+        double y = (m_analogSignal.getPoints().get(i).getY() * yFactor) + 200;
+        double x1 = (m_analogSignal.getPoints().get(i + 1).getX() * xFactor) + 100;//
+        double y1 = (m_analogSignal.getPoints().get(i + 1).getY() * yFactor) + 200;
+        double x2 = (m_analogSignal.getPoints().get(i + 2).getX() * xFactor) + 100;//
+        double y2 = (m_analogSignal.getPoints().get(i + 2).getY() * yFactor) + 200;
+        System.out.println("x: " + m_analogSignal.getPoints().get(i).getX() + " y: " + m_analogSignal.getPoints().get(i).getY());
+        System.out.println("x1: " + m_analogSignal.getPoints().get(i + 1).getX() + " y1: " + m_analogSignal.getPoints().get(i + 1).getY());
+        System.out.println("x2: " + m_analogSignal.getPoints().get(i + 2).getX() + " y2: " + m_analogSignal.getPoints().get(i + 2).getY());
+
+//        gc.strokeLine(0, 20, 250, 20);
+//        Point2D p0 = new Point2D(0, 0);
+//        Point2D p1 = new Point2D(25, 26.66);
+//        Point2D p2 = new Point2D(75, 26.66);
+//        Point2D p3 = new Point2D(100, 0);
+//        strokeCubicBezier(p0, p1, p2, p3);
+
 //        x = (m_analogSignal.getPoints().get(i + 2).getX() * xFactor) + 100;//
-//
 //        y = (m_analogSignal.getPoints().get(i + 2).getY() * yFactor) + 200;
-//
 //        x1 = (m_analogSignal.getPoints().get(i + 3).getX() * xFactor) + 100;//
-//
 //        y1 = (m_analogSignal.getPoints().get(i + 3).getY() * yFactor) + 200;
-//
 //        x2 = (m_analogSignal.getPoints().get(i + 4).getX() * xFactor) + 100;//
-//
 //        y2 = (m_analogSignal.getPoints().get(i + 4).getY() * yFactor) + 200;
 //        System.out.println("x: " + m_analogSignal.getPoints().get(i + 2).getX() + " y: " + m_analogSignal.getPoints().get(i + 2).getY());
 //        System.out.println("x1: " + m_analogSignal.getPoints().get(i + 3).getX() + " y1: " + m_analogSignal.getPoints().get(i + 3).getY());
 //        System.out.println("x2: " + m_analogSignal.getPoints().get(i + 4).getX() + " y2: " + m_analogSignal.getPoints().get(i + 4).getY());
-//
-//        gc.quadraticCurveTo(x1, y1, x2, y2);
-//        gc.stroke();
-//        gc.closePath();
-
+//       
     }
 
     private void drawCharts() {
@@ -186,5 +168,13 @@ public class Renderer {
 
         }
 
+    }
+
+    private void strokeCubicBezier(Point2D p0, Point2D p1, Point2D p2, Point2D p3) {
+        gc.beginPath();
+        gc.moveTo(p0.getX(), p0.getY());
+        gc.bezierCurveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+        gc.stroke();
+        gc.closePath();
     }
 }

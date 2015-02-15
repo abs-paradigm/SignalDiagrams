@@ -26,18 +26,84 @@ public class AnalogEncoders {
 
             if (currentBit == '1') {
                 encodedSignal.add(new Point2D(lastPoint, 0));
-                encodedSignal.add(Bezier.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), y));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), y));
                 encodedSignal.add(new Point2D(lastPoint + (Math.PI), 0));
-                encodedSignal.add(Bezier.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), -y));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), -y));
                 encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
 
                 lastPoint = lastPoint + (Math.PI * 2);
 
             } else if (currentBit == '0') {
                 encodedSignal.add(new Point2D(lastPoint, 0));
-                encodedSignal.add(Bezier.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI * .5), 0), -y));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), -y));
+                encodedSignal.add(new Point2D(lastPoint + (Math.PI), 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), y));
+                encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
+
+                lastPoint = lastPoint + (Math.PI * 2);
+            }
+        }
+        return encodedSignal;
+    }
+
+    public static List<Point2D> frequence(String message, int nbBits) {
+
+        List<Point2D> encodedSignal = new ArrayList();
+        double y = 1;
+        double lastPoint = 0;
+
+        for (int i = 0; i < message.length(); i++) {
+            char currentBit = message.charAt(i);
+
+            if (currentBit == '1') {
+                for(int j = 0; j<2; j++){
+                    
+                }
+               // double x = 1/;
+                encodedSignal.add(new Point2D(lastPoint, 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), y));
+                encodedSignal.add(new Point2D(lastPoint + (Math.PI), 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), -y));
+                encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
+
+                lastPoint = lastPoint + (Math.PI * 2);
+
+            } else if (currentBit == '0') {
+                encodedSignal.add(new Point2D(lastPoint, 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI * .5), 0), -y));
                 encodedSignal.add(new Point2D(lastPoint + (Math.PI * .5), 0));
-                encodedSignal.add(Bezier.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), y));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), y));
+                encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
+
+                lastPoint = lastPoint + (Math.PI * 2);
+            }
+        }
+        return encodedSignal;
+    }
+
+    public static List<Point2D> amplitude(String message, int nbBits) {
+
+        List<Point2D> encodedSignal = new ArrayList();
+        double y = 1;
+        double lastPoint = 0;
+
+        for (int i = 0; i < message.length(); i++) {
+            char currentBit = message.charAt(i);
+
+            if (currentBit == '1') {
+                encodedSignal.add(new Point2D(lastPoint, 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), y));
+                encodedSignal.add(new Point2D(lastPoint + (Math.PI), 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), -y));
+                encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
+
+                lastPoint = lastPoint + (Math.PI * 2);
+
+            } else if (currentBit == '0') {
+             encodedSignal.add(new Point2D(lastPoint, 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint, 0), new Point2D(lastPoint + (Math.PI), 0), (y*.5)));
+                encodedSignal.add(new Point2D(lastPoint + (Math.PI), 0));
+                encodedSignal.add(QuadCurve.getControlPointTangentTo(new Point2D(lastPoint + (Math.PI), 0), new Point2D(lastPoint + (Math.PI * 2), 0), (-y*.5)));
                 encodedSignal.add(new Point2D(lastPoint + (2 * Math.PI), 0));
 
                 lastPoint = lastPoint + (Math.PI * 2);

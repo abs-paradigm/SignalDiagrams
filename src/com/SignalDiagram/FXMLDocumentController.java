@@ -65,7 +65,7 @@ public class FXMLDocumentController implements Initializable {
         } else {
             txtField_binaryInput.setText("");
             txtField_binaryInput.setEditable(false);
-            m_renderer.resetCanvas();
+            //m_renderer.resetCanvas();
         }
     }
 
@@ -76,22 +76,20 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        m_analogSignal = new DigitalSignal(TestMessage, modulationType.NRZ);
-        m_diagram = new Diagram("NRZ Diagram", 500, 300);
-        m_renderer = new Renderer(m_canvas, m_analogSignal, m_diagram);
-        txtField_binaryInput.setText(m_analogSignal.getMessage());
-
-        cmbBox_Type.setItems(FXCollections.observableList(m_analogSignal.getModulationTypes()));
-        initListeners();
-//        m_canvas.setStyle("-fx-border-color: blue;");
 //        m_canvas.widthProperty().bind(
 //                m_scrollPane.widthProperty());
 //        m_canvas.heightProperty().bind(
 //                m_scrollPane.heightProperty());
-//        m_scrollPane.widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-//            System.out.println("Changed");
-//        });
+
+        m_analogSignal = new DigitalSignal(TestMessage, modulationType.NRZ);
+        m_diagram = new Diagram("NRZ Diagram", 500, 300);
+        m_renderer = new Renderer(m_canvas, m_analogSignal, m_diagram);
+
+        cmbBox_Type.setItems(FXCollections.observableList(m_analogSignal.getModulationTypes()));
+        txtField_binaryInput.setText(m_analogSignal.getMessage());
+
+        initListeners();
+
     }
 
     private void initListeners() {
