@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="550.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SignalDiagram.FXMLDocumentController">
+   <center>
+        <SplitPane fx:id="splitPane_Main" dividerPositions="0.3" orientation="VERTICAL" prefHeight="470.0" prefWidth="520.0" BorderPane.alignment="CENTER">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="343.0">
+                    <children>
+                  <CheckBox fx:id="ChkBox_Show" layoutX="170.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleChkBoxAction" selected="true" text="Show/Hide" />
+                  <ComboBox fx:id="cmbBox_Type" layoutX="14.0" layoutY="20.0" prefWidth="150.0" promptText="Type" />
+                  <TextField fx:id="txtField_binaryInput" layoutX="14.0" layoutY="64.0" prefHeight="31.0" prefWidth="263.0" />
+                    </children>
+                </AnchorPane>
+            <ScrollPane fx:id="m_scrollPane" prefViewportHeight="438.0" prefViewportWidth="665.0">
+               <content>
+                        <Canvas fx:id="m_canvas" height="364.0" width="665.0" />
+               </content>
+            </ScrollPane>
+            </items>
+        </SplitPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="menuItm_export" mnemonicParsing="false" text="Export..." />
+              <MenuItem fx:id="menuItm_close" mnemonicParsing="false" onAction="#close" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
