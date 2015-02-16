@@ -6,6 +6,7 @@
 package com.SignalDiagram.EncoderTest;
 
 import com.SignalDiagram.Encoder.AnalogEncoders;
+import com.SignalDiagram.Util.MathUtility;
 import java.util.List;
 import javafx.geometry.Point2D;
 import org.junit.After;
@@ -44,10 +45,38 @@ public class AnalogJUnitTest {
     // The methods must be annotated with annotation @Test. For example:
     //
     @Test
-    public void testBaseEncoder() {
+    public void testBaseSignalEncoder() {
         List<Point2D> test = AnalogEncoders.baseSignal("1");
-        for(Point2D p : test){
+        for (Point2D p : test) {
             System.out.println("x: " + p.getX() + " y: " + p.getY());
         }
     }
+
+    @Test
+    public void testAmplitudeSignalEncoder() {
+        List<Point2D> test = AnalogEncoders.amplitude("0001101011010101101011100010110101", 3, -1);
+        for (Point2D p : test) {
+            System.out.println("x: " + p.getX() + " y: " + p.getY());
+        }
+    }
+
+    @Test
+    public void testFrquenceSignalEncoder() {
+        List<Point2D> test = AnalogEncoders.frequence("0001101011010101101011100010110101", 3, -1);
+        for (Point2D p : test) {
+            System.out.println("x: " + p.getX() + " y: " + p.getY());
+        }
+    }
+
+    @Test
+    public void testFisherYatesShuffle() {
+        int[] test = {0, 1, 2, 3, 4, 5, 6, 7};
+        test = MathUtility.FisherYatesShuffle(test, 2);
+
+        for (int i = 0; i < test.length; i++) {
+            System.out.println("x: " + test[i]);
+        }
+        System.out.println("x----: " + 8 / 7);
+    }
+
 }

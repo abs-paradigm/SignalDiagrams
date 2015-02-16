@@ -36,10 +36,10 @@ public class AnalogSignal extends SignalAbstract {
                 m_encodedSignal = baseSignal(m_message);
                 break;
             case FREQUENCE:
-                m_encodedSignal = frequence(m_message, nbBits);
+                m_encodedSignal = frequence(m_message, nbBits, -1);
                 break;
             case AMPLITUDE:
-                m_encodedSignal = amplitude(m_message, nbBits);
+                m_encodedSignal = amplitude(m_message, nbBits, -1);
                 break;
             case PHASE:
 //                m_encodedSignal = phase(m_message);
