@@ -6,7 +6,7 @@
 package com.SignalDiagram;
 
 import com.SignalDiagram.Diagram.Diagram;
-import com.SignalDiagram.Renderer.Renderer;
+import com.SignalDiagram.Renderer.MainRenderer;
 import com.SignalDiagram.Signal.DigitalSignal;
 import com.SignalDiagram.Signal.DigitalSignal.modulationType;
 import java.net.URL;
@@ -21,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -47,9 +46,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField txtField_binaryInput;
 
-    private Renderer m_renderer;
+    private MainRenderer m_mainRenderer;
     private DigitalSignal m_analogSignal;
-    private GraphicsContext gc;
     private String TestMessage = "10100011110101010";
     private Diagram m_diagram;
 
@@ -61,7 +59,7 @@ public class FXMLDocumentController implements Initializable {
         if (ChkBox_Show.isSelected()) {
             txtField_binaryInput.setEditable(true);
             txtField_binaryInput.setText(m_analogSignal.getMessage());
-            m_renderer.draw();
+            m_mainRenderer.draw();
         } else {
             txtField_binaryInput.setText("");
             txtField_binaryInput.setEditable(false);
@@ -83,7 +81,7 @@ public class FXMLDocumentController implements Initializable {
 
         m_analogSignal = new DigitalSignal(TestMessage, modulationType.NRZ);
         m_diagram = new Diagram("NRZ Diagram", 500, 300);
-        m_renderer = new Renderer(m_canvas, m_analogSignal, m_diagram);
+        m_mainRenderer = new MainRenderer(m_canvas, m_analogSignal, m_diagram);
 
         cmbBox_Type.setItems(FXCollections.observableList(m_analogSignal.getModulationTypes()));
         txtField_binaryInput.setText(m_analogSignal.getMessage());
@@ -105,14 +103,14 @@ public class FXMLDocumentController implements Initializable {
         txtField_binaryInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             m_analogSignal.setMessage(newValue);
             observableList.setAll(m_analogSignal.getPoints());
-            m_renderer.draw();
+            m_mainRenderer.draw();
         });
 
         cmbBox_Type.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
                 m_analogSignal.setType(t1);
-                m_renderer.draw();
+                m_mainRenderer.draw();
             }
         });
 

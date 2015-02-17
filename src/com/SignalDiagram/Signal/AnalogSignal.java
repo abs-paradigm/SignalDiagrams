@@ -5,7 +5,7 @@ import static com.SignalDiagram.Encoder.AnalogEncoders.*;
 public class AnalogSignal extends SignalAbstract {
 
     private analogType m_analoglType;
-    private int nbBits = 1;
+    private int nbBits = 2;
 
     public AnalogSignal(String message, analogType signalTypes) {
         m_message = message;
@@ -42,7 +42,7 @@ public class AnalogSignal extends SignalAbstract {
                 m_encodedSignal = amplitude(m_message, nbBits, -1);
                 break;
             case PHASE:
-//                m_encodedSignal = phase(m_message);
+                m_encodedSignal = phase(m_message, nbBits, -1);
                 break;
         }
 

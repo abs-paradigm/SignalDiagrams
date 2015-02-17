@@ -20,7 +20,6 @@ public class DiagramAdapter {
 
     private Dimension2D m_offset;
     private Diagram m_diagram;
-    private Polyline m_border;
     private Point2D m_origin;
     private double[] m_Xborder;
     private double[] m_Yborder;
@@ -28,9 +27,6 @@ public class DiagramAdapter {
     private double[] m_yHorizontalAxis;
     private double[] m_yVerticalAxis;
     private double[] m_xVerticalAxis;
-    private Text m_TitleText;
-    private Text m_HorizontalText;
-    private Text m_VerticalText;
 
     public DiagramAdapter(Diagram diagram) {
         m_offset = new Dimension2D(20, 20);

@@ -6,14 +6,15 @@ import javafx.geometry.Point2D;
 
 public class DigitalEncoders {
 
-    public static List<Point2D> nrz(String message) {
+    public static List<Point2D> nrz(String message, Boolean inverted) {
 
         List<Point2D> encodedSignal = new ArrayList();
-        double y = .5;
+        double y = inverted ? -.5 : .5;
 
         for (int i = 0; i < message.length(); i++) {
             char currentBit = message.charAt(i);
             char previousBit;
+            Boolean isFirstBit = true;
 
             if ((i - 1) >= 0) {
                 previousBit = message.charAt(i - 1);
@@ -21,23 +22,21 @@ public class DigitalEncoders {
                 previousBit = currentBit == '0' ? '0' : '1';
             }
 
-            if (previousBit == '0' && currentBit == '1') {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i + 1, y));
+            Boolean invertYvalue;
 
-            } else if (previousBit == '1' && currentBit == '1') {
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i + 1, y));
-            }
-            if (previousBit == '1' && currentBit == '0') {
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
+            if ((previousBit == '0' && currentBit == '1') || (previousBit == '1' && currentBit == '0')) {
+                invertYvalue = currentBit == '0';
+                int invertFactor = invertYvalue ? -1 : 1;
+                encodedSignal.add(new Point2D(i, -y * invertFactor));
+                encodedSignal.add(new Point2D(i, y * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, y * invertFactor));
 
-            } else if (previousBit == '0' && currentBit == '0') {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
+            } else if ((previousBit == '1' && currentBit == '1') || (previousBit == '0' && currentBit == '0')) {
+                invertYvalue = currentBit == '0';
+                int invertFactor = invertYvalue ? -1 : 1;
+                encodedSignal.add(new Point2D(i, y * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, y * invertFactor));
+
             }
         }
         return encodedSignal;
@@ -46,7 +45,6 @@ public class DigitalEncoders {
     public static List<Point2D> manchester(String message) {
 
         List<Point2D> encodedSignal = new ArrayList();
-        Boolean positif = true;
         double y = .5;
 
         for (int i = 0; i < message.length(); i++) {
@@ -58,32 +56,25 @@ public class DigitalEncoders {
             } else {
                 previousBit = currentBit == '0' ? '0' : '1';
             }
+            Boolean invertYvalue;
 
-            if (currentBit == '0' && previousBit == '0') {
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + 1, y));
+            if ((currentBit == '0' && previousBit == '0') || (currentBit == '1' && previousBit == '1')) {
+                invertYvalue = previousBit == '1';
+                int invertFactor = invertYvalue ? -1 : 1;
+                encodedSignal.add(new Point2D(i, y * invertFactor));
+                encodedSignal.add(new Point2D(i, -y * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, -y * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, y * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, y * invertFactor));
 
-            } else if (currentBit == '0' && previousBit == '1') {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + 1, y));
+            } else if ((currentBit == '0' && previousBit == '1') || (currentBit == '1' && previousBit == '0')) {
+                invertYvalue = previousBit == '0';
+                int invertFactor = invertYvalue ? -1 : 1;
+                encodedSignal.add(new Point2D(i, -y * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, -y * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, y * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, y * invertFactor));
 
-            } else if (currentBit == '1' && previousBit == '1') {
-                encodedSignal.add(new Point2D(i, -y));
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
-
-            } else if (currentBit == '1' && previousBit == '0') {
-                encodedSignal.add(new Point2D(i, y));
-                encodedSignal.add(new Point2D(i + .5, y));
-                encodedSignal.add(new Point2D(i + .5, -y));
-                encodedSignal.add(new Point2D(i + 1, -y));
             }
         }
 
@@ -221,7 +212,6 @@ public class DigitalEncoders {
 
         return encodedSignal;
     }
-    private int nbBits = 1;
 
     private Boolean isZeroAndOne(String message) {
         for (int i = 0; i < message.length(); i++) {

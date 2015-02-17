@@ -37,7 +37,10 @@ public class DigitalSignal extends SignalAbstract {
                 m_encodedSignal = bipolar(m_message);
                 break;
             case NRZ:
-                m_encodedSignal = nrz(m_message);
+                m_encodedSignal = nrz(m_message, false);
+                break;
+            case NRZI:
+                m_encodedSignal = nrz(m_message, true);
                 break;
             case RZ:
                 m_encodedSignal = rz(m_message);
@@ -105,6 +108,6 @@ public class DigitalSignal extends SignalAbstract {
 
     public enum modulationType {
 
-        NRZ, RZ, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER
+        NRZ, NRZI, RZ, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER
     }
 }

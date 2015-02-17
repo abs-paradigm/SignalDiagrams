@@ -1,19 +1,27 @@
 package com.SignalDiagram.Encoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point2D;
 
 public class CubicBezier {
 
-    public static Point2D getControlPointTangentTo(Point2D p0, Point2D p2, double y) {
+    public static List<Point2D> getControlPointTangentTo(Point2D p0, Point2D p2, double y) {
         // Retourne le point de controle pour obtenir la tangente en y
-        Point2D xy;
+        List<Point2D> controlPoints = new ArrayList<>();
+
         double t = 0.5;
         double x = t * (p2.getX() - p0.getX());
+        double x1 = p0.getX() + (p2.getX() - p0.getX()) / 4;
+        double x2 = p2.getX() - (p2.getX() - p0.getX()) / 4;
 
         double h = ((Math.pow((1 - t), 2) * (p0.getY())) + (Math.pow((t), 2) * p2.getY()) - y) / (2 * t * (1 - t));
 
-        xy = new Point2D(x + p0.getX(), h);
-        return xy;
+        // TODO test
+        controlPoints.add(new Point2D(x1, h));
+        controlPoints.add(new Point2D(x2, h));
+        //xy = new Point2D(x + p0.getX(), h);
+        return controlPoints;
     }
 
     public static Point2D getPoint(Point2D p0, Point2D p1, Point2D p2, Point2D p3, double t) {

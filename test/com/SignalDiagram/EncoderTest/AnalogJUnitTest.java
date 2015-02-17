@@ -47,6 +47,7 @@ public class AnalogJUnitTest {
     @Test
     public void testBaseSignalEncoder() {
         List<Point2D> test = AnalogEncoders.baseSignal("1");
+        System.out.println("size: " + test.size());
         for (Point2D p : test) {
             System.out.println("x: " + p.getX() + " y: " + p.getY());
         }
