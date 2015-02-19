@@ -45,8 +45,14 @@ public class DigitalSignal extends SignalAbstract {
             case RZ:
                 m_encodedSignal = rz(m_message);
                 break;
+            case CMI:
+                m_encodedSignal = cmi(m_message);
+                break;
             case MANCHESTER:
                 m_encodedSignal = manchester(m_message);
+                break;
+            case MLT3:
+                m_encodedSignal = mlt3(m_message);
                 break;
             case MILLER:
                 m_encodedSignal = miller(m_message);
@@ -108,6 +114,6 @@ public class DigitalSignal extends SignalAbstract {
 
     public enum modulationType {
 
-        NRZ, NRZI, RZ, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER
+        NRZ, NRZI, RZ, CMI, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER, MLT3
     }
 }
