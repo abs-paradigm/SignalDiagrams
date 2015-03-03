@@ -46,6 +46,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ComboBox cmbBox_DigitalType;
     @FXML
+    private ComboBox cmbBox_AnalogType;
+    @FXML
     private SplitPane splitPane_Main;
     @FXML
     private TextField txtField_binaryInput;
@@ -54,8 +56,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private LineChart<Double, Double> m_analogChart;
 
-    private NumberAxis xAxis = new NumberAxis();
-    private NumberAxis yAxis = new NumberAxis();
+//    private NumberAxis xAxis = new NumberAxis();
+//    private NumberAxis yAxis = new NumberAxis();
 
     private List<Point2D> m_digitalPoint;
     private LineChart.Series<Double, Double> m_digitalSerie;
@@ -77,7 +79,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        m_digitalSignal = new DigitalSignal(exampleMessage, modulationType.NRZ);
+        m_digitalSignal = new DigitalSignal(exampleMessage, modulationType.NRZ_L);
         m_analogSignal = new AnalogSignal(exampleMessage, AnalogSignal.analogType.ANALOG);
 
         m_digitalChartData = FXCollections.observableArrayList();
@@ -99,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
         txtField_binaryInput.setText(m_digitalSignal.getMessage());
 
         initListeners();
-        cmbBox_DigitalType.valueProperty().set("nrz");
+        cmbBox_DigitalType.valueProperty().set("nrz-m");
     }
 
     private void initListeners() {
@@ -107,7 +109,7 @@ public class FXMLDocumentController implements Initializable {
         txtField_binaryInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             m_digitalSignal.setMessage(newValue);
             m_analogSignal.setMessage(newValue);
-            
+
             updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
             updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
         });
@@ -119,7 +121,16 @@ public class FXMLDocumentController implements Initializable {
                 m_digitalSignal.setType(newType);
 
                 updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
-                //updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
+            }
+        });
+
+        cmbBox_AnalogType.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue ov, String oldType, String newType) {
+                //m_analogChart.setTitle(WordUtils.capitalize(newType));
+                //m_analogSignal.setType(newType);
+
+                updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
             }
         });
 
@@ -128,17 +139,16 @@ public class FXMLDocumentController implements Initializable {
         });
 
         m_scrollPane.widthProperty().addListener(evt
-                -> m_digitalChart.setPrefWidth(m_scrollPane.getWidth())
-        );
-        m_scrollPane.widthProperty().addListener(evt
-                -> m_analogChart.setPrefWidth(m_scrollPane.getWidth())
-        );
+                -> {
+                    m_digitalChart.setPrefWidth(m_scrollPane.getWidth());
+                    m_analogChart.setPrefWidth(m_scrollPane.getWidth());
+                });
+
         m_scrollPane.heightProperty().addListener(evt
-                -> m_digitalChart.setPrefHeight(m_scrollPane.getHeight() / 2)
-        );
-        m_scrollPane.heightProperty().addListener(evt
-                -> m_analogChart.setPrefHeight(m_scrollPane.getHeight() / 2)
-        );
+                -> {
+                    m_digitalChart.setPrefHeight(m_scrollPane.getHeight() / 2);
+                    m_analogChart.setPrefHeight(m_scrollPane.getHeight() / 2);
+                });
 
     }
 

@@ -36,11 +36,17 @@ public class DigitalSignal extends AbstractSignal {
             case BIPOLAR:
                 m_encodedSignal = bipolar(m_message);
                 break;
-            case NRZ:
-                m_encodedSignal = nrz(m_message, false);
+            case NRZ_L:
+                m_encodedSignal = nrz_l(m_message, false);
                 break;
-            case NRZI:
-                m_encodedSignal = nrz(m_message, true);
+            case NRZI_L:
+                m_encodedSignal = nrz_l(m_message, true);
+                break;
+            case NRZ_M:
+                m_encodedSignal = nrz_m(m_message);
+                break;
+            case NRZ_S:
+                m_encodedSignal = nrz_s(m_message);
                 break;
             case RZ:
                 m_encodedSignal = rz(m_message);
@@ -50,6 +56,9 @@ public class DigitalSignal extends AbstractSignal {
                 break;
             case MANCHESTER:
                 m_encodedSignal = manchester(m_message);
+                break;
+            case MANCHESTERDIFFERENTIAL:
+                m_encodedSignal = manchesterDifferential(m_message);
                 break;
             case MLT3:
                 m_encodedSignal = mlt3(m_message);
@@ -114,6 +123,6 @@ public class DigitalSignal extends AbstractSignal {
 
     public enum modulationType {
 
-        NRZ, NRZI, RZ, CMI, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER, MLT3
+        NRZ_M, NRZ_S, NRZI_L, NRZ_L, RZ, CMI, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER, MLT3, MANCHESTERDIFFERENTIAL
     }
 }

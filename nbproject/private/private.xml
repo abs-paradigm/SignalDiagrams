@@ -5,11 +5,8 @@
         <group>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/FXMLDocumentController.java</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Encoder/DigitalEncoders.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/SignalDiagram.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Encoder/AnalogEncoders.java</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/FXMLDocument.fxml</file>
             <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Signal/DigitalSignal.java</file>
-            <file>file:/C:/Users/Dom/Documents/NetBeansProjects/SignalDiagrams/src/com/SignalDiagram/Signal/AnalogSignal.java</file>
         </group>
     </open-files>
 </project-private>

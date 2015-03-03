@@ -17,6 +17,7 @@
                     <children>
                         <ComboBox fx:id="cmbBox_DigitalType" layoutX="14.0" layoutY="20.0" prefWidth="150.0" promptText="Digital Type" />
                         <TextField fx:id="txtField_binaryInput" layoutX="14.0" layoutY="64.0" prefHeight="31.0" prefWidth="263.0" />
+                  <ComboBox fx:id="cmbBox_AnalogType" disable="true" layoutX="357.0" layoutY="20.0" prefWidth="150.0" promptText="Analog Type" />
                     </children>
                 </AnchorPane>
                 <ScrollPane fx:id="m_scrollPane" prefViewportHeight="438.0" prefViewportWidth="665.0">

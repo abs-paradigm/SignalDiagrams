@@ -6,10 +6,10 @@ import javafx.geometry.Point2D;
 
 public class DigitalEncoders {
 
-    public static List<Point2D> nrz(String message, Boolean inverted) {
+    public static List<Point2D> nrz_l(String message, Boolean inverted) {
 
         List<Point2D> encodedSignal = new ArrayList();
-        double volt = inverted ? -.5 : .5;
+        double volt = inverted ? -1 : 1;
 
         for (int i = 0; i < message.length(); i++) {
             char currentBit = message.charAt(i);
@@ -38,6 +38,76 @@ public class DigitalEncoders {
                 encodedSignal.add(new Point2D(i + 1, volt * invertFactor));
 
             }
+        }
+        return encodedSignal;
+    }
+
+    public static List<Point2D> nrz_m(String message) {
+
+        List<Point2D> encodedSignal = new ArrayList();
+        double volt = 1;//inverted ? -.5 : .5;
+        Boolean change = false;
+        Boolean invertYvalue = true;
+
+        for (int i = 0; i < message.length(); i++) {
+            char currentBit = message.charAt(i);
+            char previousBit;
+
+            if ((i - 1) >= 0) {
+                previousBit = message.charAt(i - 1);
+            } else {
+                previousBit = currentBit == '0' ? '0' : '1';
+            }
+
+            if (currentBit == '0') {
+                int invertFactor = invertYvalue ? 0 : 1;
+                encodedSignal.add(new Point2D(i, volt * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, volt * invertFactor));
+
+            } else if (currentBit == '1') {
+                int invertFactor = invertYvalue ? 1 : 0;
+                encodedSignal.add(new Point2D(i, invertFactor));
+                encodedSignal.add(new Point2D(i, -volt * -invertFactor));
+                encodedSignal.add(new Point2D(i + 1, -volt * -invertFactor));
+                invertYvalue = !invertYvalue;
+
+            }
+
+        }
+        return encodedSignal;
+    }
+    
+    public static List<Point2D> nrz_s(String message) {
+
+        List<Point2D> encodedSignal = new ArrayList();
+        double volt = 1;//inverted ? -.5 : .5;
+        Boolean change = false;
+        Boolean invertYvalue = true;
+
+        for (int i = 0; i < message.length(); i++) {
+            char currentBit = message.charAt(i);
+            char previousBit;
+
+            if ((i - 1) >= 0) {
+                previousBit = message.charAt(i - 1);
+            } else {
+                previousBit = currentBit == '0' ? '0' : '1';
+            }
+
+            if (currentBit == '1') {
+                int invertFactor = invertYvalue ? 0 : 1;
+                encodedSignal.add(new Point2D(i, volt * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, volt * invertFactor));
+
+            } else if (currentBit == '0') {
+                int invertFactor = invertYvalue ? 1 : 0;
+                encodedSignal.add(new Point2D(i, invertFactor));
+                encodedSignal.add(new Point2D(i, -volt * -invertFactor));
+                encodedSignal.add(new Point2D(i + 1, -volt * -invertFactor));
+                invertYvalue = !invertYvalue;
+
+            }
+
         }
         return encodedSignal;
     }
@@ -241,7 +311,7 @@ public class DigitalEncoders {
         List<Point2D> encodedSignal = new ArrayList();
         Boolean progressing = true;
         double lastVolt = 0;
-        
+
         for (int i = 0; i < message.length(); i++) {
             char currentBit = message.charAt(i);
 
@@ -267,6 +337,40 @@ public class DigitalEncoders {
         }
 
         return encodedSignal;
+    }
+
+    public static List<Point2D> manchesterDifferential(String message) {
+
+        List<Point2D> encodedSignal = new ArrayList();
+        double volt = 1;
+        int invertFactor = 1;
+
+        for (int i = 0; i < message.length(); i++) {
+            char currentBit = message.charAt(i);
+
+            Boolean invertYvalue;
+
+            if (currentBit == '1') {
+                invertFactor = invertFactor * -1;
+                // remove first point
+                encodedSignal.add(new Point2D(i, -volt * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, -volt * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, volt * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, volt * invertFactor));
+
+            } else if (currentBit == '0') {
+                // remove first point
+                encodedSignal.add(new Point2D(i, volt * invertFactor));
+                encodedSignal.add(new Point2D(i, -volt * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, -volt * invertFactor));
+                encodedSignal.add(new Point2D(i + .5, volt * invertFactor));
+                encodedSignal.add(new Point2D(i + 1, volt * invertFactor));
+
+            }
+        }
+
+        return encodedSignal;
+
     }
 
     private Boolean isZeroAndOne(String message) {

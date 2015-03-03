@@ -46,7 +46,7 @@ public class SignalJUnitTest {
         List<Point2D> test = com.SignalDiagram.Encoder.DigitalEncoders.bipolar("101010101010");
         System.out.println("Bipolar");
         System.out.println(test.size());
-        test = com.SignalDiagram.Encoder.DigitalEncoders.nrz("101010101010", false);
+        test = com.SignalDiagram.Encoder.DigitalEncoders.nrz_l("101010101010", false);
         System.out.println("nrz");
         System.out.println(test.size());
         test = com.SignalDiagram.Encoder.DigitalEncoders.rz("101010101010");
