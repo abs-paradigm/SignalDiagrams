@@ -16,7 +16,7 @@ import javafx.geometry.Point2D;
  *
  * @author Dom
  */
-public class DigitalSignal extends SignalAbstract {
+public class DigitalSignal extends AbstractSignal {
 
     private modulationType m_signalType;
 
@@ -86,7 +86,7 @@ public class DigitalSignal extends SignalAbstract {
     }
 
     @Override
-    protected SignalAbstract updateSignal() {
+    protected AbstractSignal updateSignal() {
         return this;
     }
 

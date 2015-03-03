@@ -12,7 +12,7 @@ import javafx.geometry.Point2D;
  *
  * @author Dom
  */
-abstract class SignalAbstract {
+public abstract class AbstractSignal {
 
     protected List<Point2D> m_encodedSignal;
     protected String m_message;
@@ -25,7 +25,7 @@ abstract class SignalAbstract {
         return m_encodedSignal;
     }
 
-    public SignalAbstract setMessage(String message) {
+    public AbstractSignal setMessage(String message) {
         m_message = message;
         updateSignal();
         return this;
@@ -35,6 +35,6 @@ abstract class SignalAbstract {
         return m_message;
     }
 
-    abstract protected SignalAbstract updateSignal();
+    abstract protected AbstractSignal updateSignal();
 
 }

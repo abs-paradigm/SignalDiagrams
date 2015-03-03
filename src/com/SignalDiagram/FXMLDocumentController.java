@@ -5,27 +5,31 @@
  */
 package com.SignalDiagram;
 
-import com.SignalDiagram.Diagram.Diagram;
-import com.SignalDiagram.Renderer.MainRenderer;
+import com.SignalDiagram.Signal.AbstractSignal;
+import com.SignalDiagram.Signal.AnalogSignal;
 import com.SignalDiagram.Signal.DigitalSignal;
 import com.SignalDiagram.Signal.DigitalSignal.modulationType;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  *
@@ -40,32 +44,30 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckBox ChkBox_Show;
     @FXML
-    private ComboBox cmbBox_Type;
+    private ComboBox cmbBox_DigitalType;
     @FXML
     private SplitPane splitPane_Main;
     @FXML
     private TextField txtField_binaryInput;
-
-    private MainRenderer m_mainRenderer;
-    private DigitalSignal m_analogSignal;
-    private String TestMessage = "10100011110101010";
-    private Diagram m_diagram;
-
-    private ObservableList<Point2D> observableList = FXCollections.observableArrayList();
-
     @FXML
-    private void handleChkBoxAction(ActionEvent event) {
+    private LineChart<Double, Double> m_digitalChart;
+    @FXML
+    private LineChart<Double, Double> m_analogChart;
 
-        if (ChkBox_Show.isSelected()) {
-            txtField_binaryInput.setEditable(true);
-            txtField_binaryInput.setText(m_analogSignal.getMessage());
-            m_mainRenderer.draw();
-        } else {
-            txtField_binaryInput.setText("");
-            txtField_binaryInput.setEditable(false);
-            //m_renderer.resetCanvas();
-        }
-    }
+    private NumberAxis xAxis = new NumberAxis();
+    private NumberAxis yAxis = new NumberAxis();
+
+    private List<Point2D> m_digitalPoint;
+    private LineChart.Series<Double, Double> m_digitalSerie;
+    private LineChart.Series<Double, Double> m_analogSerie;
+
+    private DigitalSignal m_digitalSignal;
+    private AnalogSignal m_analogSignal;
+    private String exampleMessage = "10100011110101010";
+
+    private ObservableList<Point2D> m_observableList = FXCollections.observableArrayList();
+    private ObservableList<XYChart.Series<Double, Double>> m_digitalChartData;
+    private ObservableList<XYChart.Series<Double, Double>> m_analogChartData;
 
     @FXML
     private void close() {
@@ -74,49 +76,84 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        m_canvas.widthProperty().bind(
-//                m_scrollPane.widthProperty());
-//        m_canvas.heightProperty().bind(
-//                m_scrollPane.heightProperty());
 
-        m_analogSignal = new DigitalSignal(TestMessage, modulationType.NRZ);
-        m_diagram = new Diagram("NRZ Diagram", 500, 300);
-        m_mainRenderer = new MainRenderer(m_canvas, m_analogSignal, m_diagram);
+        m_digitalSignal = new DigitalSignal(exampleMessage, modulationType.NRZ);
+        m_analogSignal = new AnalogSignal(exampleMessage, AnalogSignal.analogType.ANALOG);
 
-        cmbBox_Type.setItems(FXCollections.observableList(m_analogSignal.getModulationTypes()));
-        txtField_binaryInput.setText(m_analogSignal.getMessage());
+        m_digitalChartData = FXCollections.observableArrayList();
+        m_analogChartData = FXCollections.observableArrayList();
+
+        m_digitalSerie = new LineChart.Series<>();
+        m_digitalSerie = updatePoints(m_digitalSignal.getPoints());
+
+        m_analogSerie = new LineChart.Series<>();
+        m_analogSerie = updatePoints(m_analogSignal.getPoints());
+
+        m_digitalChartData.add(m_digitalSerie);
+        m_digitalChart.setData(m_digitalChartData);
+
+        m_analogChartData.add(m_analogSerie);
+        m_analogChart.setData(m_analogChartData);
+
+        cmbBox_DigitalType.setItems(FXCollections.observableList(m_digitalSignal.getModulationTypes()));
+        txtField_binaryInput.setText(m_digitalSignal.getMessage());
 
         initListeners();
-
+        cmbBox_DigitalType.valueProperty().set("nrz");
     }
 
     private void initListeners() {
-        observableList = FXCollections.observableList(m_analogSignal.getPoints());
-        observableList.addListener(new ListChangeListener<Point2D>() {
-
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends Point2D> c) {
-
-            }
-        });
 
         txtField_binaryInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            m_digitalSignal.setMessage(newValue);
             m_analogSignal.setMessage(newValue);
-            observableList.setAll(m_analogSignal.getPoints());
-            m_mainRenderer.draw();
+            
+            updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
+            updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
         });
 
-        cmbBox_Type.valueProperty().addListener(new ChangeListener<String>() {
+        cmbBox_DigitalType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue ov, String t, String t1) {
-                m_analogSignal.setType(t1);
-                m_mainRenderer.draw();
+            public void changed(ObservableValue ov, String oldType, String newType) {
+                m_digitalChart.setTitle(WordUtils.capitalize(newType));
+                m_digitalSignal.setType(newType);
+
+                updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
+                //updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
             }
         });
 
-        cmbBox_Type.getItems().addListener((ListChangeListener.Change c) -> {
+        cmbBox_DigitalType.getItems().addListener((ListChangeListener.Change c) -> {
             System.out.println("c" + c.toString());
         });
+
+        m_scrollPane.widthProperty().addListener(evt
+                -> m_digitalChart.setPrefWidth(m_scrollPane.getWidth())
+        );
+        m_scrollPane.widthProperty().addListener(evt
+                -> m_analogChart.setPrefWidth(m_scrollPane.getWidth())
+        );
+        m_scrollPane.heightProperty().addListener(evt
+                -> m_digitalChart.setPrefHeight(m_scrollPane.getHeight() / 2)
+        );
+        m_scrollPane.heightProperty().addListener(evt
+                -> m_analogChart.setPrefHeight(m_scrollPane.getHeight() / 2)
+        );
+
+    }
+
+    private LineChart.Series<Double, Double> updatePoints(List<Point2D> digitalPoint) {
+        LineChart.Series<Double, Double> pointSerie = new LineChart.Series<>();
+        digitalPoint.stream().forEach((p) -> {
+            pointSerie.getData().add(new XYChart.Data<>(p.getX(), p.getY()));
+        });
+        return pointSerie;
+    }
+
+    private void updateChart(LineChart.Series<Double, Double> serie, ObservableList<XYChart.Series<Double, Double>> chartData, AbstractSignal signal) {
+        serie = updatePoints(signal.getPoints());
+        chartData.setAll(chartData);
+        chartData.add(serie);
     }
 
 }

@@ -2,7 +2,7 @@ package com.SignalDiagram.Signal;
 
 import static com.SignalDiagram.Encoder.AnalogEncoders.*;
 
-public class AnalogSignal extends SignalAbstract {
+public class AnalogSignal extends AbstractSignal {
 
     private analogType m_analoglType;
     private int nbBits = 2;
@@ -24,7 +24,7 @@ public class AnalogSignal extends SignalAbstract {
     }
 
     @Override
-    protected SignalAbstract updateSignal() {
+    protected AbstractSignal updateSignal() {
         return this;
     }
 
@@ -44,14 +44,31 @@ public class AnalogSignal extends SignalAbstract {
             case PHASE:
                 m_encodedSignal = phase(m_message, nbBits, -1);
                 break;
+            case ANALOG:
+                m_encodedSignal = analog(m_message);
+                break;
         }
+
+        return this;
+    }
+
+    public AnalogSignal setType(analogType type) {
+        m_analoglType = type;
+        encodeMessage();
+        return this;
+    }
+
+    @Override
+    public AnalogSignal setMessage(String message) {
+        m_message = message;
+        encodeMessage();
 
         return this;
     }
 
     public enum analogType {
 
-        NORMAL, FREQUENCE, AMPLITUDE, PHASE
+        NORMAL, FREQUENCE, AMPLITUDE, PHASE, ANALOG
     }
 
 }

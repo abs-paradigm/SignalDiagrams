@@ -206,4 +206,20 @@ public class AnalogEncoders {
         return array;
     }
 
+    public static List<Point2D> analog(String message) {
+        List<Point2D> encodedSignal = new ArrayList();
+        int a = 1; // Amplitude
+        int f = 1; // frequence
+        int p = 1; // phase
+        int t = 1; // time
+        double inc= 100;
+        for (int i = 0; i < message.length()*inc; i++) {
+
+            encodedSignal.add(new Point2D(i/inc, (a * Math.cos(2 * Math.PI * f * i/inc + p))));
+            //System.out.println("x: " + i + " y: " + (a * Math.cos(2 * Math.PI * f * i/inc + p)));
+        }
+
+        return encodedSignal;
+    }
+
 }
