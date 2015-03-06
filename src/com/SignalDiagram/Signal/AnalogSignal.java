@@ -5,7 +5,7 @@ import static com.SignalDiagram.Encoder.AnalogEncoders.*;
 public class AnalogSignal extends AbstractSignal {
 
     private analogType m_analoglType;
-    private int nbBits = 2;
+    private int m_nbBits = 1;
 
     public AnalogSignal(String message, analogType signalTypes) {
         m_message = message;
@@ -15,7 +15,6 @@ public class AnalogSignal extends AbstractSignal {
     }
 
     public AnalogSignal() {
-
     }
 
     private void initMessage(String message) {
@@ -36,17 +35,15 @@ public class AnalogSignal extends AbstractSignal {
                 m_encodedSignal = baseSignal(m_message);
                 break;
             case FREQUENCE:
-                m_encodedSignal = frequence(m_message, nbBits, -1);
+                m_encodedSignal = frequence(m_message, m_nbBits, -1);
                 break;
             case AMPLITUDE:
-                m_encodedSignal = amplitude(m_message, nbBits, -1);
+                m_encodedSignal = amplitude(m_message, m_nbBits, -1);
                 break;
             case PHASE:
-                m_encodedSignal = phase(m_message, nbBits, -1);
+                m_encodedSignal = phase(m_message, m_nbBits, -1);
                 break;
-            case ANALOG:
-                m_encodedSignal = analog(m_message);
-                break;
+
         }
 
         return this;
@@ -54,6 +51,12 @@ public class AnalogSignal extends AbstractSignal {
 
     public AnalogSignal setType(analogType type) {
         m_analoglType = type;
+        encodeMessage();
+        return this;
+    }
+
+    public AnalogSignal setNbBits(int nbBits) {
+        m_nbBits = nbBits;
         encodeMessage();
         return this;
     }
@@ -68,7 +71,7 @@ public class AnalogSignal extends AbstractSignal {
 
     public enum analogType {
 
-        NORMAL, FREQUENCE, AMPLITUDE, PHASE, ANALOG
+        NORMAL, FREQUENCE, AMPLITUDE, PHASE
     }
 
 }

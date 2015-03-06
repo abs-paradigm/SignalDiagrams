@@ -5,7 +5,6 @@ package com.SignalDiagram.EncoderTest;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.util.List;
 import javafx.geometry.Point2D;
 import org.junit.After;
@@ -43,18 +42,18 @@ public class SignalJUnitTest {
     @Test
     public void CheckPointQuantity() {
         // TODO
-        List<Point2D> test = com.SignalDiagram.Encoder.DigitalEncoders.bipolar("101010101010");
-        System.out.println("Bipolar");
-        System.out.println(test.size());
-        test = com.SignalDiagram.Encoder.DigitalEncoders.nrz_l("101010101010", false);
-        System.out.println("nrz");
-        System.out.println(test.size());
-        test = com.SignalDiagram.Encoder.DigitalEncoders.rz("101010101010");
-        System.out.println("rz");
-        System.out.println(test.size());
-        test = com.SignalDiagram.Encoder.DigitalEncoders.manchester("101010101010");
-        System.out.println("manchester");
-        System.out.println(test.size());
+        //List<Point2D> test = com.SignalDiagram.Encoder.DigitalEncoders.bipolar("101010101010");
+//        System.out.println("Bipolar");
+//        System.out.println(test.size());
+//        test = com.SignalDiagram.Encoder.DigitalEncoders.nrz_l("101010101010", false);
+//        System.out.println("nrz");
+//        System.out.println(test.size());
+//        //test = com.SignalDiagram.Encoder.DigitalEncoders.rz("101010101010");
+//        System.out.println("rz");
+//        System.out.println(test.size());
+//        test = com.SignalDiagram.Encoder.DigitalEncoders.manchester("101010101010", false);
+//        System.out.println("manchester");
+//        System.out.println(test.size());
     }
 
 }

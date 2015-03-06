@@ -22,12 +22,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -42,22 +40,18 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ScrollPane m_scrollPane;
     @FXML
-    private CheckBox ChkBox_Show;
-    @FXML
     private ComboBox cmbBox_DigitalType;
-    @FXML
-    private ComboBox cmbBox_AnalogType;
-    @FXML
-    private SplitPane splitPane_Main;
     @FXML
     private TextField txtField_binaryInput;
     @FXML
-    private LineChart<Double, Double> m_digitalChart;
+    private CheckBox ChkBox_Inverted;
+
+    //private NumberAxis xAxis = new NumberAxis();
+    //private NumberAxis yAxis = new NumberAxis();
+    @FXML
+    private LineChart m_digitalChart;// = new LineChart<>(xAxis, yAxis);
     @FXML
     private LineChart<Double, Double> m_analogChart;
-
-//    private NumberAxis xAxis = new NumberAxis();
-//    private NumberAxis yAxis = new NumberAxis();
 
     private List<Point2D> m_digitalPoint;
     private LineChart.Series<Double, Double> m_digitalSerie;
@@ -76,11 +70,17 @@ public class FXMLDocumentController implements Initializable {
         System.exit(0);
     }
 
+    @FXML
+    private void invertSignal() {
+        m_digitalSignal.setInverted(ChkBox_Inverted.isSelected());
+        updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        m_digitalSignal = new DigitalSignal(exampleMessage, modulationType.NRZ_L);
-        m_analogSignal = new AnalogSignal(exampleMessage, AnalogSignal.analogType.ANALOG);
+        m_digitalSignal = new DigitalSignal(exampleMessage, modulationType.NRZ_L, false);
+        m_analogSignal = new AnalogSignal(exampleMessage, AnalogSignal.analogType.AMPLITUDE);
 
         m_digitalChartData = FXCollections.observableArrayList();
         m_analogChartData = FXCollections.observableArrayList();
@@ -102,6 +102,7 @@ public class FXMLDocumentController implements Initializable {
 
         initListeners();
         cmbBox_DigitalType.valueProperty().set("nrz-m");
+        m_analogChart.setTitle("Analog Signal: " + "Amplitude - 2 Harmonics");
     }
 
     private void initListeners() {
@@ -117,20 +118,10 @@ public class FXMLDocumentController implements Initializable {
         cmbBox_DigitalType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String oldType, String newType) {
-                m_digitalChart.setTitle(WordUtils.capitalize(newType));
+                m_digitalChart.setTitle("Dital Signal: " + WordUtils.capitalize(newType));
                 m_digitalSignal.setType(newType);
 
                 updateChart(m_digitalSerie, m_digitalChartData, m_digitalSignal);
-            }
-        });
-
-        cmbBox_AnalogType.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue ov, String oldType, String newType) {
-                //m_analogChart.setTitle(WordUtils.capitalize(newType));
-                //m_analogSignal.setType(newType);
-
-                updateChart(m_analogSerie, m_analogChartData, m_analogSignal);
             }
         });
 
@@ -146,8 +137,8 @@ public class FXMLDocumentController implements Initializable {
 
         m_scrollPane.heightProperty().addListener(evt
                 -> {
-                    m_digitalChart.setPrefHeight(m_scrollPane.getHeight() / 2);
-                    m_analogChart.setPrefHeight(m_scrollPane.getHeight() / 2);
+                    m_digitalChart.setPrefHeight(m_scrollPane.getHeight() / 3);
+                    m_analogChart.setPrefHeight(m_scrollPane.getHeight() / 3);
                 });
 
     }

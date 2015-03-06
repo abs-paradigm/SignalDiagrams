@@ -18,6 +18,8 @@ import javafx.geometry.Point2D;
  */
 public class DigitalSignal extends AbstractSignal {
 
+    private Boolean m_invertedSignal = false;
+
     private modulationType m_signalType;
 
     public ObservableList<Point2D> signalList = FXCollections.observableArrayList();
@@ -25,49 +27,56 @@ public class DigitalSignal extends AbstractSignal {
     public DigitalSignal() {
     }
 
-    public DigitalSignal(String message, modulationType type) {
+    public DigitalSignal(String message, modulationType type, Boolean isInverted) {
         m_signalType = type;
+        m_invertedSignal = isInverted;
         initMessage(message);
     }
 
     private DigitalSignal encodeMessage() {
-        System.out.println("m_signalType: " + m_signalType);
+        System.out.println("m_signalType: " + m_signalType + " - Inverted: " + m_invertedSignal);
         switch (m_signalType) {
             case BIPOLAR:
-                m_encodedSignal = bipolar(m_message);
+                m_encodedSignal = bipolar(m_message, m_invertedSignal);
                 break;
+//            case BIPHASE_M:
+//                m_encodedSignal = biphase_m(m_message, m_invertedSignal);
+//                break;
+//            case BIPHASE_S:
+//                m_encodedSignal = biphase_s(m_message, m_invertedSignal);
+//                break;
             case NRZ_L:
-                m_encodedSignal = nrz_l(m_message, false);
-                break;
-            case NRZI_L:
-                m_encodedSignal = nrz_l(m_message, true);
+                m_encodedSignal = nrz_l(m_message, m_invertedSignal);
                 break;
             case NRZ_M:
-                m_encodedSignal = nrz_m(m_message);
+                m_encodedSignal = nrz_m(m_message, m_invertedSignal);
                 break;
             case NRZ_S:
-                m_encodedSignal = nrz_s(m_message);
+                m_encodedSignal = nrz_s(m_message, m_invertedSignal);
                 break;
             case RZ:
-                m_encodedSignal = rz(m_message);
+                m_encodedSignal = rz(m_message, m_invertedSignal);
                 break;
             case CMI:
-                m_encodedSignal = cmi(m_message);
+                m_encodedSignal = cmi(m_message, m_invertedSignal);
                 break;
             case MANCHESTER:
-                m_encodedSignal = manchester(m_message);
+                m_encodedSignal = manchester(m_message, m_invertedSignal);
                 break;
             case MANCHESTERDIFFERENTIAL:
-                m_encodedSignal = manchesterDifferential(m_message);
+                m_encodedSignal = manchesterDifferential(m_message, m_invertedSignal);
                 break;
             case MLT3:
-                m_encodedSignal = mlt3(m_message);
+                m_encodedSignal = mlt3(m_message, m_invertedSignal);
                 break;
             case MILLER:
-                m_encodedSignal = miller(m_message);
+                m_encodedSignal = miller(m_message, m_invertedSignal);
+                break;
+            case PSEUDOTERNARY:
+                m_encodedSignal = pseudoternary(m_message, m_invertedSignal);
                 break;
             case UNIPOLAR:
-                m_encodedSignal = unipolar(m_message);
+                m_encodedSignal = unipolar(m_message, m_invertedSignal);
                 break;
         }
 
@@ -121,8 +130,20 @@ public class DigitalSignal extends AbstractSignal {
         return modulationTypes;
     }
 
+    public Boolean isInverted() {
+        return m_invertedSignal;
+    }
+
+    public DigitalSignal setInverted(Boolean inverted) {
+        m_invertedSignal = inverted;
+        encodeMessage();
+        return this;
+    }
+
     public enum modulationType {
 
-        NRZ_M, NRZ_S, NRZI_L, NRZ_L, RZ, CMI, UNIPOLAR, BIPOLAR, MANCHESTER, MILLER, MLT3, MANCHESTERDIFFERENTIAL
+        BIPOLAR, CMI, MANCHESTER, NRZ_L, NRZ_M, NRZ_S,
+        MANCHESTERDIFFERENTIAL, MILLER, MLT3, PSEUDOTERNARY, RZ, UNIPOLAR
+        //, BIPHASE_M, BIPHASE_S
     }
 }
