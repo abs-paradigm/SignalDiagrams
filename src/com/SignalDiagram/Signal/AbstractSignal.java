@@ -5,36 +5,33 @@
  */
 package com.SignalDiagram.Signal;
 
-import java.util.List;
-import javafx.geometry.Point2D;
-
 /**
  *
  * @author Dom
  */
 public abstract class AbstractSignal {
 
-    protected List<Point2D> m_encodedSignal;
     protected String m_message;
+
+    protected abstract AbstractSignal encodeMessage();
 
     public int getLength() {
         return m_message.length();
-    }
-
-    public List<Point2D> getPoints() {
-        return m_encodedSignal;
-    }
-
-    public AbstractSignal setMessage(String message) {
-        m_message = message;
-        updateSignal();
-        return this;
     }
 
     public String getMessage() {
         return m_message;
     }
 
-    abstract protected AbstractSignal updateSignal();
+    protected void initMessage(String message) {
+        m_message = message;
+        encodeMessage();
+    }
+
+    public AbstractSignal setMessage(String message) {
+        m_message = message;
+        encodeMessage();
+        return this;
+    }
 
 }

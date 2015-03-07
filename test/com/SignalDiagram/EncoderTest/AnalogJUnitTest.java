@@ -46,25 +46,29 @@ public class AnalogJUnitTest {
     //
     @Test
     public void testBaseSignalEncoder() {
-        List<Point2D> test = AnalogEncoders.baseSignal("1");
+        List<List<Point2D>> test = AnalogEncoders.baseSignal("1");
         System.out.println("size: " + test.size());
-        for (Point2D p : test) {
+        List<Point2D> test2 = test.get(0);
+        for (Point2D p : test2) {
             System.out.println("x: " + p.getX() + " y: " + p.getY());
         }
     }
 
     @Test
     public void testAmplitudeSignalEncoder() {
-        List<Point2D> test = AnalogEncoders.amplitude("0001101011010101101011100010110101", 3, -1);
-        for (Point2D p : test) {
+        List<List<Point2D>> test = AnalogEncoders.amplitude("0001101011010101101011100010110101", 3, -1);
+        List<Point2D> test2 = test.get(0);
+        for (Point2D p : test2) {
             System.out.println("x: " + p.getX() + " y: " + p.getY());
         }
     }
 
     @Test
     public void testFrquenceSignalEncoder() {
-        List<Point2D> test = AnalogEncoders.frequence("0001101011010101101011100010110101", 3, -1);
-        for (Point2D p : test) {
+        List<List<Point2D>> test = AnalogEncoders.frequence("0001101011010101101011100010110101", 3, -1);
+        List<Point2D> test2 = test.get(0);
+
+        for (Point2D p : test2) {
             System.out.println("x: " + p.getX() + " y: " + p.getY());
         }
     }

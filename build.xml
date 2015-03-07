@@ -49,5 +49,93 @@
     For list of available properties check the files
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
+      <target name="-post-jfx-jar">
+        <jar jarfile="dist/SignalDiagrams-standalone.jar">
+            <zipfileset src="${dist.jar}" />
+            <zipfileset src="lib/commons-lang3-3.3.2.jar"  />
+ 
+              
+  </target>
     -->
+<!--    <property name="JAVA_HOME" value="C:\\Program Files\\Java\\jdk1.8.0_25"/>
+    <path id="CLASSPATH">
+        <pathelement location="lib/commons-lang3-3.3.2.jar"/>
+
+        <pathelement location="lib/commons-lang3-3.3.2-javadoc.jar"/>
+        <pathelement path="classes"/>
+    </path>
+  
+    <property name="build.src.dir" value="src"/>
+    <property name="build.classes.dir" value="classes"/>
+    <property name="build.dist.dir" value="dist"/>
+ 
+    <target name="default" depends="clean,compile">
+ 
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+             uri="javafx:com.sun.javafx.tools.ant"
+             classpath="${JAVA_HOME}/lib/ant-javafx.jar"/>
+ 
+        <fx:application id="SignalDiagrams"
+                      name="SignalDiagrams"
+                      mainClass="com.SignalDigram.SignalDiagram"/>
+ 
+        <fx:resources id="appRes">
+            <fx:fileset dir="${build.dist.dir}" includes="SignalDiagrams"/>
+            <fx:fileset dir="lib"/>
+            <fx:fileset dir="${build.classes.dir}"/>
+        </fx:resources>
+ 
+        <fx:jar destfile="${build.dist.dir}/SignalDiagrams">
+            <fx:application refid="SignalDiagrams"/>
+            <fx:resources refid="appRes"/>
+        </fx:jar>
+ 
+        <fx:deploy outdir="." embedJNLP="true"
+                 outfile="SignalDiagrams"
+                 nativeBundles="all">
+ 
+            <fx:application refId="SignalDiagrams"/>
+ 
+            <fx:resources refid="appRes"/>
+ 
+            <fx:info title="SignalDiagrams JavaFX Demo Application"
+                 vendor="Oracle Corporation"/>
+ 
+        </fx:deploy>
+ 
+    </target>
+ 
+    <target name="clean">
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.dist.dir}"/>
+ 
+        <delete>
+            <fileset dir="${build.classes.dir}" includes="**/*"/>
+            <fileset dir="${build.dist.dir}" includes="**/*"/>
+        </delete>
+ 
+    </target>
+ 
+    <target name="compile" depends="clean">
+ 
+        <javac includeantruntime="false"
+           srcdir="${build.src.dir}"
+           destdir="${build.classes.dir}"
+           fork="yes"
+           executable="${JAVA_HOME}/bin/javac"
+           source="1.8"
+           debug="on"
+           classpathref="CLASSPATH">
+        </javac>
+    
+         Copy resources to build.classes.dir 
+    
+        <copy todir="${build.classes.dir}">
+            <fileset dir="src/app/resources"/>
+            <fileset dir="src/generated/resources"/>
+            <fileset dir="src/samples/resources"/>
+        </copy>
+    
+    </target>-->
+ 
 </project>

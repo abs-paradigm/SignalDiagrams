@@ -5,7 +5,18 @@
  */
 package com.SignalDiagram.Signal;
 
-import static com.SignalDiagram.Encoder.DigitalEncoders.*;
+import static com.SignalDiagram.Encoder.DigitalEncoders.bipolar;
+import static com.SignalDiagram.Encoder.DigitalEncoders.cmi;
+import static com.SignalDiagram.Encoder.DigitalEncoders.manchester;
+import static com.SignalDiagram.Encoder.DigitalEncoders.manchesterDifferential;
+import static com.SignalDiagram.Encoder.DigitalEncoders.miller;
+import static com.SignalDiagram.Encoder.DigitalEncoders.mlt3;
+import static com.SignalDiagram.Encoder.DigitalEncoders.nrz_l;
+import static com.SignalDiagram.Encoder.DigitalEncoders.nrz_m;
+import static com.SignalDiagram.Encoder.DigitalEncoders.nrz_s;
+import static com.SignalDiagram.Encoder.DigitalEncoders.pseudoternary;
+import static com.SignalDiagram.Encoder.DigitalEncoders.rz;
+import static com.SignalDiagram.Encoder.DigitalEncoders.unipolar;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -17,12 +28,14 @@ import javafx.geometry.Point2D;
  * @author Dom
  */
 public class DigitalSignal extends AbstractSignal {
+    protected List<Point2D> m_encodedSignal;
 
     private Boolean m_invertedSignal = false;
 
     private modulationType m_signalType;
 
     public ObservableList<Point2D> signalList = FXCollections.observableArrayList();
+
 
     public DigitalSignal() {
     }
@@ -33,7 +46,8 @@ public class DigitalSignal extends AbstractSignal {
         initMessage(message);
     }
 
-    private DigitalSignal encodeMessage() {
+    @Override
+    protected DigitalSignal encodeMessage() {
         System.out.println("m_signalType: " + m_signalType + " - Inverted: " + m_invertedSignal);
         switch (m_signalType) {
             case BIPOLAR:
@@ -83,44 +97,6 @@ public class DigitalSignal extends AbstractSignal {
         return this;
     }
 
-    public DigitalSignal setType(modulationType type) {
-        m_signalType = type;
-        encodeMessage();
-        return this;
-    }
-
-    public DigitalSignal setType(String type) {
-
-        for (modulationType mt : modulationType.values()) {
-
-            if (mt.name().equals(type.toUpperCase())) {
-                m_signalType = mt;
-                break;
-            }
-        }
-
-        encodeMessage();
-        return this;
-    }
-
-    @Override
-    protected AbstractSignal updateSignal() {
-        return this;
-    }
-
-    @Override
-    public DigitalSignal setMessage(String message) {
-        m_message = message;
-        encodeMessage();
-
-        return this;
-    }
-
-    private void initMessage(String message) {
-        m_message = message;
-        encodeMessage();
-    }
-
     public List<String> getModulationTypes() {
         List<String> modulationTypes = new ArrayList<>();
 
@@ -130,12 +106,43 @@ public class DigitalSignal extends AbstractSignal {
         return modulationTypes;
     }
 
+    public List<Point2D> getPoints() {
+        return m_encodedSignal;
+    }
+
     public Boolean isInverted() {
         return m_invertedSignal;
     }
-
     public DigitalSignal setInverted(Boolean inverted) {
         m_invertedSignal = inverted;
+        encodeMessage();
+        return this;
+    }
+    
+    @Override
+    public DigitalSignal setMessage(String message) {
+        m_message = message;
+        encodeMessage();
+        
+        return this;
+    }
+
+    public DigitalSignal setType(modulationType type) {
+        m_signalType = type;
+        encodeMessage();
+        return this;
+    }
+
+    public DigitalSignal setType(String type) {
+        
+        for (modulationType mt : modulationType.values()) {
+            
+            if (mt.name().equals(type.toUpperCase())) {
+                m_signalType = mt;
+                break;
+            }
+        }
+        
         encodeMessage();
         return this;
     }

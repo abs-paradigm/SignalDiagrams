@@ -16,9 +16,65 @@ import javafx.geometry.Point2D;
  */
 public class AnalogEncoders {
 
-    public static List<Point2D> baseSignal(String message) {
-
+    public static List<List<Point2D>> amplitude(String message, int nbBits, int seed) {
+        List<Point2D> partialSignal = new ArrayList();
+        List<List<Point2D>> encodedSignal = new ArrayList();
+        double last_xValue = 0;
+        
+        int harmonic = (int) Math.pow(2, nbBits);
+        
+        int[] orderArray;
+        orderArray = initOrderedArray(harmonic);
+        orderArray = seed != 0 ? MathUtility.FisherYatesShuffle(orderArray, seed) : orderArray;
+        
+        int subIndex = 0;
+        String partialMessage = "";
+        
+        for (int i = 0; i < (message.length() / nbBits); i++) {
+            
+            partialMessage = message.substring(subIndex, subIndex + nbBits);
+            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
+            double h = orderArray[intValOfParialMessage] / (double) harmonic;
+            
+            partialSignal.addAll(analog(h, 1, 1, i));
+            
+            last_xValue = last_xValue + (Math.PI * 2);
+            subIndex = subIndex + nbBits;
+            
+        }
+        int messageEnd = message.length() % nbBits;
+        
+        if (messageEnd > 0) {
+            
+            partialMessage = message.substring(subIndex, message.length());
+            
+            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
+            double h = orderArray[intValOfParialMessage] / harmonic;
+            partialSignal.addAll(analog(h, 1, 1, (message.length() - messageEnd)));
+            
+        }
+        encodedSignal.add(partialSignal);
+        return encodedSignal;
+    }
+    
+    private static List<Point2D> analog(double amplitude, double frequence, double phase, double startingX) {
         List<Point2D> encodedSignal = new ArrayList();
+        double a = amplitude;
+        double f = frequence;
+        double p = 1.5 * Math.PI; // phase
+        int subdivision = 100;
+        for (int i = 0; i <= 1 * subdivision; i++) {
+            // i = time
+            encodedSignal.add(new Point2D(startingX + (i / (double) subdivision), (a * Math.cos(2 * Math.PI * f * i / subdivision + p))));
+            // System.out.println("x: " + i + " y: " + (a * Math.cos(2 * Math.PI * f * i/inc + p)));
+        }
+        
+        return encodedSignal;
+    }
+    
+    public static List<List<Point2D>> baseSignal(String message) {
+        List<List<Point2D>> encodedSignal = new ArrayList();
+        List<Point2D> partialSignal = new ArrayList();
         double y = 1;
         double last_xValue = 0;
 
@@ -26,230 +82,84 @@ public class AnalogEncoders {
             char currentBit = message.charAt(i);
             List<Point2D> controlPoints;
             if (currentBit == '1') {
-                encodedSignal.add(new Point2D(last_xValue, 0));
+                partialSignal.add(new Point2D(last_xValue, 0));
                 controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (Math.PI), 0), y);
                 for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
+                    partialSignal.add(p);
                 }
-                encodedSignal.add(new Point2D(last_xValue + (Math.PI), 0));
+                partialSignal.add(new Point2D(last_xValue + (Math.PI), 0));
                 controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (Math.PI), 0), new Point2D(last_xValue + (Math.PI * 2), 0), -y);
                 for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
+                    partialSignal.add(p);
                 }
-                encodedSignal.add(new Point2D(last_xValue + (2 * Math.PI), 0));
+                partialSignal.add(new Point2D(last_xValue + (2 * Math.PI), 0));
 
                 last_xValue = last_xValue + (Math.PI * 2);
 
             } else if (currentBit == '0') {
-                encodedSignal.add(new Point2D(last_xValue, 0));
+                partialSignal.add(new Point2D(last_xValue, 0));
                 controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (Math.PI), 0), -y);
                 for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
+                    partialSignal.add(p);
                 }
-                encodedSignal.add(new Point2D(last_xValue + (Math.PI), 0));
+                partialSignal.add(new Point2D(last_xValue + (Math.PI), 0));
                 controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (Math.PI), 0), new Point2D(last_xValue + (Math.PI * 2), 0), y);
                 for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
+                    partialSignal.add(p);
                 }
-                encodedSignal.add(new Point2D(last_xValue + (2 * Math.PI), 0));
+                partialSignal.add(new Point2D(last_xValue + (2 * Math.PI), 0));
 
                 last_xValue = last_xValue + (Math.PI * 2);
             }
         }
+        encodedSignal.add(partialSignal);
+
         return encodedSignal;
     }
 
-    public static List<Point2D> frequenceV2(String message, int nbBits, int seed) {
-        List<Point2D> encodedSignal = new ArrayList();
+    public static List<List<Point2D>> frequence(String message, int nbBits, int seed) {
+        List<Point2D> partialSignal = new ArrayList();
+        List<List<Point2D>> encodedSignal = new ArrayList();
         double amplitude = 1;
         double last_xValue = 0;
         int harmonic = (int) Math.pow(2, nbBits);
 
         int[] orderArray;
-        orderArray = initArray(harmonic);
+        orderArray = initOrderedArray(harmonic);
 
-        orderArray = seed == -1 ? orderArray : MathUtility.FisherYatesShuffle(orderArray, seed);
+        orderArray = seed == 0 ? orderArray : MathUtility.FisherYatesShuffle(orderArray, seed);
 
         int subIndex = 0;
         String partialMessage = "";
 
         for (int i = 0; i < (message.length() / nbBits); i++) {
-
+            partialSignal = new ArrayList();
             partialMessage = message.substring(subIndex, subIndex + nbBits);
             int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-            double d = Math.PI / (double) orderArray[intValOfParialMessage];
-            List<Point2D> controlPoints;
+            double frequence = (double) orderArray[intValOfParialMessage];
 
-            for (int j = 0; j < (intValOfParialMessage + 1); j++) {
-                encodedSignal.add(new Point2D(last_xValue, 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (.5 * d), 0), amplitude);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (.5 * d), 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (.5 * d), 0), new Point2D(last_xValue + d, 0), -amplitude);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d), 0));
+            partialSignal.addAll(analog(1, frequence, 1, last_xValue));
 
-                last_xValue = last_xValue + (d);
-
-            }
+            last_xValue = last_xValue + 1;;
+            encodedSignal.add(partialSignal);
             subIndex = subIndex + nbBits;
-
+            encodedSignal.add(partialSignal);
         }
 
         int messageEnd = message.length() % nbBits;
 
         if (messageEnd > 0) {
-
             partialMessage = message.substring(subIndex, subIndex + messageEnd);
             int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-
-            double d = Math.PI / orderArray[intValOfParialMessage];
-            List<Point2D> controlPoints;
-
-            for (int j = 0; j < intValOfParialMessage + 1; j++) {
-                encodedSignal.add(new Point2D(last_xValue, 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (d), 0), amplitude);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d), 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (d), 0), new Point2D(last_xValue + d * 2, 0), -amplitude);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d * 2), 0));
-
-                last_xValue = last_xValue + (d * 2);
-            }
+            double frequence = Math.PI / orderArray[intValOfParialMessage];
+            partialSignal.addAll(analog(1, frequence, 1, last_xValue));
         }
+        encodedSignal.add(partialSignal);
 
         return encodedSignal;
     }
 
-    public static List<Point2D> frequence(String message, int nbBits, int seed) {
-
-        List<Point2D> encodedSignal = new ArrayList();
-        double y = 1;
-        double last_xValue = 0;
-        int harmonic = (int) Math.pow(2, nbBits);
-
-        int[] orderArray;
-        orderArray = initArray(harmonic);
-
-        orderArray = seed == -1 ? orderArray : MathUtility.FisherYatesShuffle(orderArray, seed);
-
-        int subIndex = 0;
-        String partialMessage = "";
-
-        for (int i = 0; i < (message.length() / nbBits); i++) {
-
-            partialMessage = message.substring(subIndex, subIndex + nbBits);
-            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-            double d = Math.PI / (double) orderArray[intValOfParialMessage];
-            List<Point2D> controlPoints;
-
-            for (int j = 0; j < (intValOfParialMessage + 1); j++) {
-                encodedSignal.add(new Point2D(last_xValue, 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (.5 * d), 0), y);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (.5 * d), 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (.5 * d), 0), new Point2D(last_xValue + d, 0), -y);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d), 0));
-
-                last_xValue = last_xValue + (d);
-
-            }
-            subIndex = subIndex + nbBits;
-
-        }
-
-        int messageEnd = message.length() % nbBits;
-
-        if (messageEnd > 0) {
-
-            partialMessage = message.substring(subIndex, subIndex + messageEnd);
-            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-
-            double d = Math.PI / orderArray[intValOfParialMessage];
-            List<Point2D> controlPoints;
-
-            for (int j = 0; j < intValOfParialMessage + 1; j++) {
-                encodedSignal.add(new Point2D(last_xValue, 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue, 0), new Point2D(last_xValue + (d), 0), y);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d), 0));
-                controlPoints = CubicBezier.getControlPointTangentTo(new Point2D(last_xValue + (d), 0), new Point2D(last_xValue + d * 2, 0), -y);
-                for (Point2D p : controlPoints) {
-                    encodedSignal.add(p);
-                }
-                encodedSignal.add(new Point2D(last_xValue + (d * 2), 0));
-
-                last_xValue = last_xValue + (d * 2);
-            }
-        }
-
-        return encodedSignal;
-    }
-
-    public static List<Point2D> amplitude(String message, int nbBits, int seed) {
-
-        List<Point2D> encodedSignal = new ArrayList();
-        double last_xValue = 0;
-
-        int harmonic = (int) Math.pow(2, nbBits);
-
-        int[] orderArray;
-        orderArray = initArray(harmonic);
-        orderArray = seed != -1 ? MathUtility.FisherYatesShuffle(orderArray, seed) : orderArray;
-
-        int subIndex = 0;
-        String partialMessage = "";
-        List<Point2D> controlPoints;
-
-        for (int i = 0; i < (message.length() / nbBits); i++) {
-
-            partialMessage = message.substring(subIndex, subIndex + nbBits);
-            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-            double h = orderArray[intValOfParialMessage] / (double) harmonic;
-
-            encodedSignal.addAll(analog(h, 1, 1, i));
-
-            last_xValue = last_xValue + (Math.PI * 2);
-            subIndex = subIndex + nbBits;
-
-        }
-        int messageEnd = message.length() % nbBits;
-
-        if (messageEnd > 0) {
-
-            partialMessage = message.substring(subIndex, message.length());
-
-            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
-            double h = orderArray[intValOfParialMessage] / harmonic;
-            encodedSignal.addAll(analog(h, 1, 1, (message.length() - messageEnd)));
-
-        }
-        return encodedSignal;
-    }
-
-    public static List<Point2D> phase(String message, int nbBits, int seed) {
-        List<Point2D> encodedSignal = new ArrayList();
-
-        return encodedSignal;
-    }
-
-    private static int[] initArray(int arraySize) {
+    private static int[] initOrderedArray(int arraySize) {
         int[] array = new int[arraySize];
         for (int i = 0; i < arraySize; i++) {
             array[i] = i + 1;
@@ -257,18 +167,11 @@ public class AnalogEncoders {
         return array;
     }
 
-    public static List<Point2D> analog(double amplitude, int frequence, double phase, double startingX) {
-        List<Point2D> encodedSignal = new ArrayList();
-        double a = amplitude;
-        int f = frequence;
-        double p = 1.5 * Math.PI; // phase
-        double inc = 100;
-        for (int i = 0; i < 1 * inc; i++) {
-            // i = time
-            encodedSignal.add(new Point2D(startingX + (i / inc), (a * Math.cos(2 * Math.PI * f * i / inc + p))));
-            //System.out.println("x: " + i + " y: " + (a * Math.cos(2 * Math.PI * f * i/inc + p)));
-        }
+    public static List<List<Point2D>> phase(String message, int nbBits, int seed) {
+        List<Point2D> partialSignal = new ArrayList();
+        List<List<Point2D>> encodedSignal = new ArrayList();
 
+        encodedSignal.add(partialSignal);
         return encodedSignal;
     }
 

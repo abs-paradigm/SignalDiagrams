@@ -43,6 +43,7 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
@@ -70,32 +71,43 @@
                                     <Insets bottom="15.0" top="15.0" />
                                  </GridPane.margin>
                               </Separator>
-                              <Label disable="true" text="Harmonics:" GridPane.columnIndex="5">
+                              <Label fx:id="txt_harmonics" text="Bits:" GridPane.columnIndex="5">
                                  <GridPane.margin>
-                                    <Insets left="10.0" />
+                                    <Insets left="15.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label disable="true" text="Seed: " GridPane.columnIndex="5" GridPane.rowIndex="1">
+                              <Label fx:id="txt_seed" text="Seed: " GridPane.columnIndex="5" GridPane.rowIndex="1">
                                  <GridPane.margin>
-                                    <Insets left="10.0" top="-25.0" />
+                                    <Insets left="15.0" top="-25.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label disable="true" text="Noise: " GridPane.columnIndex="5" GridPane.rowIndex="2">
+                              <Label fx:id="lbl_noise" disable="true" text="Noise: " GridPane.columnIndex="5" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets left="10.0" top="-25.0" />
+                                    <Insets left="15.0" top="-25.0" />
                                  </GridPane.margin>
                               </Label>
-                              <CheckBox disable="true" mnemonicParsing="false" selected="true" text="Amplitude" GridPane.columnIndex="4" />
-                              <CheckBox disable="true" mnemonicParsing="false" text="Frequence" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                              <RadioButton fx:id="radBtn_phase" disable="true" mnemonicParsing="false" text="Phase" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                 <padding>
+                                    <Insets top="-25.0" />
+                                 </padding>
+                              </RadioButton>
+                              <RadioButton fx:id="radBtn_frequence" mnemonicParsing="false" text="Frequence" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                 <padding>
+                                    <Insets top="-25.0" />
+                                 </padding>
+                              </RadioButton>
+                              <RadioButton fx:id="radBtn_amplitude" mnemonicParsing="false" selected="true" text="Amplitude" GridPane.columnIndex="4" />
+                              <TextField fx:id="txtField_bits" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" />
+                              <TextField fx:id="txtField_seed" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets top="-25.0" />
                                  </GridPane.margin>
-                              </CheckBox>
-                              <CheckBox disable="true" mnemonicParsing="false" text="Phase" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                              </TextField>
+                              <TextField fx:id="txtField_noise" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets top="-25.0" />
                                  </GridPane.margin>
-                              </CheckBox>
+                              </TextField>
                            </children>
                         </GridPane>
                      </children>
@@ -113,7 +125,7 @@
                                   <NumberAxis label="" lowerBound="0" minorTickLength="0.5" tickUnit="1" upperBound="3" />
                               </xAxis>
                               <yAxis>
-                                  <NumberAxis label="" lowerBound="-1.0" minorTickCount="1" minorTickLength="1.0" tickLabelGap="1.0" tickUnit="1" upperBound="1.0" />
+                                  <NumberAxis autoRanging="false" label="" lowerBound="-1.0" minorTickCount="1" minorTickLength="1.0" tickLabelGap="1.0" tickUnit="1" upperBound="1.0" />
                               </yAxis>
                           </LineChart>
                       </children>
