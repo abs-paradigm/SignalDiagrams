@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SignalDiagram.FXMLDocumentController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SignalDiagram.FXMLDocumentController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -127,6 +127,9 @@
                               <yAxis>
                                   <NumberAxis autoRanging="false" label="" lowerBound="-1.0" minorTickCount="1" minorTickLength="1.0" tickLabelGap="1.0" tickUnit="1" upperBound="1.0" />
                               </yAxis>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
                           </LineChart>
                       </children>
                   </VBox>

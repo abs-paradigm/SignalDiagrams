@@ -117,7 +117,7 @@ public class FXMLDocumentController implements Initializable {
 
         txtField_bits.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (!newValue.matches("[1-9][0-9]*")) {
-                txtField_bits.setText(oldValue);
+                txtField_bits.setText("1");
             } else if (!newValue.isEmpty()) {
 
                 m_analogSignal.setNbBits(Integer.parseInt(newValue));
@@ -222,12 +222,10 @@ public class FXMLDocumentController implements Initializable {
 
         for (List<Point2D> lp : signal.getPoints()) {
             XYChart.Series<Double, Double> test = updatePoints(lp);
-            //test.getData().s
             serieList.add(updatePoints(lp));
         }
 
         chartData.addAll(serieList);
-
     }
 
     private void updateDigitalChart(LineChart.Series<Double, Double> serie, ObservableList<XYChart.Series<Double, Double>> chartData, DigitalSignal signal) {
