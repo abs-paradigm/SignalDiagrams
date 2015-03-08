@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SignalDiagrams.jar" size="30890" download="eager" />
+    <jar href="SignalDiagrams.jar" size="30580" download="eager" />
     <jar href="lib/commons-lang3-3.3.2-javadoc.jar" size="1074965" download="eager" />
     <jar href="lib/commons-lang3-3.3.2.jar" size="412740" download="eager" />
   </resources>

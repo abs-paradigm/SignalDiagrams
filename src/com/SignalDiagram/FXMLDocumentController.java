@@ -149,10 +149,6 @@ public class FXMLDocumentController implements Initializable {
             }
         });
 
-        cmbBox_DigitalType.getItems().addListener((ListChangeListener.Change c) -> {
-            System.out.println("c" + c.toString());
-        });
-
         m_scrollPane.widthProperty().addListener(evt
                 -> {
                     m_digitalChart.setPrefWidth(m_scrollPane.getWidth());
@@ -175,6 +171,10 @@ public class FXMLDocumentController implements Initializable {
                 }
                 if (radioAnalogGroup.getSelectedToggle() == radBtn_frequence) {
                     m_analogSignal.setType(AnalogSignal.analogType.FREQUENCE);
+                    updateAnalogChart(m_analogSerieList, m_analogChartData, m_analogSignal);
+                }
+                if (radioAnalogGroup.getSelectedToggle() == radBtn_phase) {
+                    m_analogSignal.setType(AnalogSignal.analogType.PHASE);
                     updateAnalogChart(m_analogSerieList, m_analogChartData, m_analogSignal);
                 }
             }

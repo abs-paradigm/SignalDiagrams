@@ -3,3 +3,6 @@ A JavaFx 8 educational application that will let you visualize digital and analo
 
 Digital: Bipolar, CMI, NRZ-L, NRZ-M, NRZ-S NRZ-I, Manchester, Manchester differential, Miller, MLT-3, RZ, Unipolar.
 Analog: Phase, Frequency, Amplitude.
+
+GitHub: http://github.com/abs-paradigm/SignalDiagrams
+SourceForge: http://sourceforge.net/projects/signaldiagrams/

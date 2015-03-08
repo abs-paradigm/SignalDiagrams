@@ -26,7 +26,6 @@ public class AnalogSignal extends AbstractSignal {
 
     @Override
     protected AnalogSignal encodeMessage() {
-        System.out.println("m_signalType: " + m_analoglType);
 
         switch (m_analoglType) {
             case NORMAL:

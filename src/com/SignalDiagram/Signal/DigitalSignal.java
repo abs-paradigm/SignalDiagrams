@@ -28,6 +28,7 @@ import javafx.geometry.Point2D;
  * @author Dom
  */
 public class DigitalSignal extends AbstractSignal {
+
     protected List<Point2D> m_encodedSignal;
 
     private Boolean m_invertedSignal = false;
@@ -35,7 +36,6 @@ public class DigitalSignal extends AbstractSignal {
     private modulationType m_signalType;
 
     public ObservableList<Point2D> signalList = FXCollections.observableArrayList();
-
 
     public DigitalSignal() {
     }
@@ -48,7 +48,7 @@ public class DigitalSignal extends AbstractSignal {
 
     @Override
     protected DigitalSignal encodeMessage() {
-        System.out.println("m_signalType: " + m_signalType + " - Inverted: " + m_invertedSignal);
+
         switch (m_signalType) {
             case BIPOLAR:
                 m_encodedSignal = bipolar(m_message, m_invertedSignal);
@@ -113,17 +113,18 @@ public class DigitalSignal extends AbstractSignal {
     public Boolean isInverted() {
         return m_invertedSignal;
     }
+
     public DigitalSignal setInverted(Boolean inverted) {
         m_invertedSignal = inverted;
         encodeMessage();
         return this;
     }
-    
+
     @Override
     public DigitalSignal setMessage(String message) {
         m_message = message;
         encodeMessage();
-        
+
         return this;
     }
 
@@ -134,15 +135,15 @@ public class DigitalSignal extends AbstractSignal {
     }
 
     public DigitalSignal setType(String type) {
-        
+
         for (modulationType mt : modulationType.values()) {
-            
+
             if (mt.name().equals(type.toUpperCase())) {
                 m_signalType = mt;
                 break;
             }
         }
-        
+
         encodeMessage();
         return this;
     }

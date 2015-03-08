@@ -28,8 +28,8 @@ public class AnalogEncoders {
         orderArray = seed != 0 ? MathUtility.FisherYatesShuffle(orderArray, seed) : orderArray;
 
         int subIndex = 0;
-        String partialMessage = "";
-        
+        String partialMessage;
+
         if (message.length() >= nbBits) {
             for (int i = 0; i < (message.length() / nbBits); i++) {
                 partialMessage = message.substring(subIndex, subIndex + nbBits);
@@ -63,8 +63,9 @@ public class AnalogEncoders {
         List<Point2D> encodedSignal = new ArrayList();
         double a = amplitude;
         double f = frequence;
-        double p = 1.5 * Math.PI; 
-        int subdivision = (int)(100 * frequence);
+        double p = (1.5 * Math.PI) * phase;
+
+        int subdivision = (int) (100 * frequence);
         for (int i = 0; i <= 1 * subdivision; i++) {
             // i = time
             encodedSignal.add(new Point2D(startingX + (i / (double) subdivision), (a * Math.cos(2 * Math.PI * f * i / subdivision + p))));
@@ -132,7 +133,7 @@ public class AnalogEncoders {
         orderArray = seed == 0 ? orderArray : MathUtility.FisherYatesShuffle(orderArray, seed);
 
         int subIndex = 0;
-        String partialMessage = "";
+        String partialMessage;
 
         for (int i = 0; i < (message.length() / nbBits); i++) {
             partialSignal = new ArrayList();
@@ -142,7 +143,7 @@ public class AnalogEncoders {
 
             partialSignal.addAll(analog(1, frequence, 1, last_xValue));
 
-            last_xValue = last_xValue + 1;;
+            last_xValue = last_xValue + 1;
             encodedSignal.add(partialSignal);
             subIndex = subIndex + nbBits;
             encodedSignal.add(partialSignal);
@@ -155,8 +156,9 @@ public class AnalogEncoders {
             int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
             double frequence = Math.PI / orderArray[intValOfParialMessage];
             partialSignal.addAll(analog(1, frequence, 1, last_xValue));
+            encodedSignal.add(partialSignal);
+
         }
-        encodedSignal.add(partialSignal);
 
         return encodedSignal;
     }
@@ -170,10 +172,48 @@ public class AnalogEncoders {
     }
 
     public static List<List<Point2D>> phase(String message, int nbBits, int seed) {
-        List<Point2D> partialSignal = new ArrayList();
+        List<Point2D> partialSignal;
         List<List<Point2D>> encodedSignal = new ArrayList();
 
-        encodedSignal.add(partialSignal);
+        double phase;
+        double last_xValue = 0;
+        int harmonic = (int) Math.pow(2, nbBits);
+
+        int[] orderArray;
+        orderArray = initOrderedArray(harmonic);
+
+        orderArray = seed == 0 ? orderArray : MathUtility.FisherYatesShuffle(orderArray, seed);
+
+        int subIndex = 0;
+        String partialMessage;
+        if (message.length() >= nbBits) {
+            for (int i = 0; i < (message.length() / nbBits); i++) {
+                partialSignal = new ArrayList();
+                partialMessage = message.substring(subIndex, subIndex + nbBits);
+                int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
+                phase = (double) orderArray[intValOfParialMessage];
+
+                partialSignal.addAll(analog(1, 1, phase, last_xValue));
+
+                last_xValue = last_xValue + 1;
+                encodedSignal.add(partialSignal);
+                subIndex = subIndex + nbBits;
+                encodedSignal.add(partialSignal);
+            }
+        }
+
+        int messageEnd = message.length() % nbBits;
+
+        if (messageEnd > 0) {
+            partialSignal = new ArrayList();
+            partialMessage = message.substring(subIndex, subIndex + messageEnd);
+            int intValOfParialMessage = Integer.parseInt(partialMessage, 2);
+            phase = (double) orderArray[intValOfParialMessage];
+            partialSignal.addAll(analog(1, 1, phase, last_xValue));
+            encodedSignal.add(partialSignal);
+
+        }
+
         return encodedSignal;
     }
 
