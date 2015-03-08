@@ -8,18 +8,25 @@ package com.SignalDiagram;
 import com.SignalDiagram.Signal.AnalogSignal;
 import com.SignalDiagram.Signal.DigitalSignal;
 import com.SignalDiagram.Signal.DigitalSignal.modulationType;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -30,6 +37,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.commons.lang3.text.WordUtils;
 
 /**
@@ -108,7 +118,7 @@ public class FXMLDocumentController implements Initializable {
                 txtField_seed.setText(oldValue);
             } else if (!newValue.isEmpty()) {
 
-                m_analogSignal.setSeed(Integer.parseInt(newValue));
+                txtField_seed.setText("" + m_analogSignal.setSeed(Integer.parseInt(newValue)).getSeed());
 
                 updateAnalogChart(m_analogSerieList, m_analogChartData, m_analogSignal);
             }
@@ -120,7 +130,9 @@ public class FXMLDocumentController implements Initializable {
                 txtField_bits.setText("1");
             } else if (!newValue.isEmpty()) {
 
-                m_analogSignal.setNbBits(Integer.parseInt(newValue));
+                txtField_bits.setText(""
+                        + m_analogSignal.setNbBits(Integer.parseInt(newValue)).getNbBits()
+                );
 
                 updateAnalogChart(m_analogSerieList, m_analogChartData, m_analogSignal);
             }
@@ -207,6 +219,27 @@ public class FXMLDocumentController implements Initializable {
         initListeners();
         cmbBox_DigitalType.valueProperty().set("nrz-m");
         m_analogChart.setTitle("Analog Signal");
+
+    }
+
+    @FXML
+    private void showAbout(ActionEvent event) {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("FXMLAbout.fxml"));
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("About");
+            stage.initStyle(StageStyle.UTILITY);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            // stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

@@ -6,10 +6,12 @@ import javafx.geometry.Point2D;
 
 public class AnalogSignal extends AbstractSignal {
 
+    private final int MAXARRAYSIZE = 28;
+
     private analogType m_analoglType;
-    private int m_seed = 0;
-    private int m_nbBits = 1;
     protected List<List<Point2D>> m_encodedSignal;
+    private int m_nbBits = 1;
+    private int m_seed = 0;
 
     public AnalogSignal(String message, analogType signalTypes) {
         m_message = message;
@@ -20,10 +22,6 @@ public class AnalogSignal extends AbstractSignal {
     }
 
     public AnalogSignal() {
-    }
-
-    public List<List<Point2D>> getPoints() {
-        return m_encodedSignal;
     }
 
     @Override
@@ -49,25 +47,17 @@ public class AnalogSignal extends AbstractSignal {
         return this;
     }
 
-    public AnalogSignal setType(analogType type) {
-        m_analoglType = type;
-        encodeMessage();
-        return this;
+    public int getNbBits() {
+
+        return m_nbBits;
     }
 
-    public AnalogSignal setNbBits(int nbBits) {
-        m_nbBits = nbBits;
-        encodeMessage();
-        return this;
-    }
-
-    public AnalogSignal setSeed(int seed) {
-        m_seed = seed;
-        encodeMessage();
-        return this;
+    public List<List<Point2D>> getPoints() {
+        return m_encodedSignal;
     }
 
     public int getSeed() {
+
         return m_seed;
     }
 
@@ -76,6 +66,30 @@ public class AnalogSignal extends AbstractSignal {
         m_message = message;
         encodeMessage();
 
+        return this;
+    }
+
+    public AnalogSignal setNbBits(int nbBits) {
+        if (nbBits <= MAXARRAYSIZE) {
+            m_nbBits = nbBits;
+            encodeMessage();
+        }
+
+        return this;
+    }
+
+    public AnalogSignal setSeed(int seed) {
+        if (seed <= Integer.MAX_VALUE) {
+            m_seed = seed;
+            encodeMessage();
+        }
+
+        return this;
+    }
+
+    public AnalogSignal setType(analogType type) {
+        m_analoglType = type;
+        encodeMessage();
         return this;
     }
 

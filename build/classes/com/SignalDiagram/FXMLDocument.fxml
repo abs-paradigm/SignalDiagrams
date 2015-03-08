@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.canvas.*?>
@@ -10,19 +11,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SignalDiagram.FXMLDocumentController">
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SignalDiagram.FXMLDocumentController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="menuItm_export" mnemonicParsing="false" text="Export..." />
+                        <MenuItem fx:id="menuItm_export" disable="true" mnemonicParsing="false" text="Export..." />
                         <MenuItem fx:id="menuItm_close" mnemonicParsing="false" onAction="#close" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
                     </items>
                 </Menu>
             </menus>
@@ -33,85 +34,115 @@
               <content>
                   <VBox>
                       <children>
-                  <AnchorPane>
+                  <HBox>
                      <children>
-                        <GridPane>
+                        <GridPane HBox.hgrow="ALWAYS">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="80.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="50.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="50.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                                    <ComboBox fx:id="cmbBox_DigitalType" prefWidth="150.0" promptText="Digital Type" GridPane.columnSpan="2">
+                                    <ComboBox fx:id="cmbBox_DigitalType" prefWidth="150.0" promptText="Digital Type" GridPane.columnSpan="2" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="25.0" top="10.0" />
                                  </GridPane.margin>
                               </ComboBox>
-                                    <TextField fx:id="txtField_binaryInput" prefHeight="31.0" prefWidth="312.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                                    <TextField fx:id="txtField_binaryInput" prefHeight="31.0" prefWidth="312.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets left="25.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <CheckBox fx:id="ChkBox_Inverted" mnemonicParsing="false" onAction="#invertSignal" text="Inverted" GridPane.columnIndex="2">
+                              <CheckBox fx:id="ChkBox_Inverted" mnemonicParsing="false" onAction="#invertSignal" text="Inverted" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets top="10.0" />
                                  </GridPane.margin>
                               </CheckBox>
-                              <Separator orientation="VERTICAL" prefHeight="141.0" prefWidth="7.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+                              <Separator orientation="VERTICAL" prefHeight="141.0" prefWidth="7.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowSpan="4">
                                  <GridPane.margin>
                                     <Insets bottom="15.0" top="15.0" />
                                  </GridPane.margin>
                               </Separator>
-                              <Label fx:id="txt_harmonics" text="Bits:" GridPane.columnIndex="5">
+                              <Label fx:id="txt_harmonics" text="Bits:" GridPane.columnIndex="7" GridPane.rowIndex="1">
                                  <GridPane.margin>
-                                    <Insets left="15.0" />
+                                    <Insets />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="txt_seed" text="Seed: " GridPane.columnIndex="5" GridPane.rowIndex="1">
+                              <Label fx:id="txt_seed" text="Seed: " GridPane.columnIndex="7" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets left="15.0" top="-25.0" />
+                                    <Insets top="-20.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="lbl_noise" disable="true" text="Noise: " GridPane.columnIndex="5" GridPane.rowIndex="2">
+                              <Label fx:id="lbl_noise" disable="true" text="Noise: " GridPane.columnIndex="7" GridPane.rowIndex="3">
                                  <GridPane.margin>
-                                    <Insets left="15.0" top="-25.0" />
+                                    <Insets top="-30.0" />
                                  </GridPane.margin>
                               </Label>
-                              <RadioButton fx:id="radBtn_phase" disable="true" mnemonicParsing="false" text="Phase" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                              <RadioButton fx:id="radBtn_phase" disable="true" mnemonicParsing="false" text="Phase" GridPane.columnIndex="5" GridPane.rowIndex="3">
                                  <padding>
-                                    <Insets top="-25.0" />
+                                    <Insets top="-30.0" />
                                  </padding>
                               </RadioButton>
-                              <RadioButton fx:id="radBtn_frequence" mnemonicParsing="false" text="Frequence" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                              <RadioButton fx:id="radBtn_frequence" mnemonicParsing="false" text="Frequence" GridPane.columnIndex="5" GridPane.rowIndex="2">
                                  <padding>
-                                    <Insets top="-25.0" />
+                                    <Insets top="-20.0" />
                                  </padding>
                               </RadioButton>
-                              <RadioButton fx:id="radBtn_amplitude" mnemonicParsing="false" selected="true" text="Amplitude" GridPane.columnIndex="4" />
-                              <TextField fx:id="txtField_bits" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" />
-                              <TextField fx:id="txtField_seed" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                              <RadioButton fx:id="radBtn_amplitude" mnemonicParsing="false" selected="true" text="Amplitude" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                              <TextField fx:id="txtField_bits" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                              <TextField fx:id="txtField_seed" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="8" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets top="-25.0" />
+                                    <Insets top="-20.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField fx:id="txtField_noise" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                              <TextField fx:id="txtField_noise" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" GridPane.columnIndex="8" GridPane.rowIndex="3">
                                  <GridPane.margin>
-                                    <Insets top="-25.0" />
+                                    <Insets top="-30.0" />
                                  </GridPane.margin>
                               </TextField>
+                              <Separator orientation="VERTICAL" prefHeight="141.0" prefWidth="7.0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="15.0" top="15.0" />
+                                 </GridPane.margin>
+                              </Separator>
+                              <Label text="Digital" GridPane.columnSpan="2">
+                                 <GridPane.margin>
+                                    <Insets left="25.0" top="15.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Analog" GridPane.columnIndex="5">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="15.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets top="25.0" />
+                                 </GridPane.margin>
+                              </Separator>
                            </children>
                         </GridPane>
                      </children>
-                  </AnchorPane>
+                  </HBox>
                           <LineChart fx:id="m_digitalChart" alternativeColumnFillVisible="true" createSymbols="false" legendVisible="false" title="Digital Signal">
                               <xAxis>
                                   <NumberAxis label="" lowerBound="0" minorTickLength="1.0" minorTickVisible="false" tickLabelGap="1.0" tickUnit="1.0" upperBound="3" />
